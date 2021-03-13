@@ -193,7 +193,7 @@ class SecureKeyboardKeyGenerator {
       return SecureKeyboardKey(
         text: key,
         capsText: key.toUpperCase(),
-        type: SecureKeyboardKeyType.String
+        type: SecureKeyboardKeyType.STRING
       );
     });
   }
@@ -201,7 +201,7 @@ class SecureKeyboardKeyGenerator {
   /// Returns the backspace action key.
   SecureKeyboardKey _backspaceActionKey() {
     return SecureKeyboardKey(
-      type: SecureKeyboardKeyType.Action,
+      type: SecureKeyboardKeyType.ACTION,
       action: SecureKeyboardKeyAction.BACKSPACE
     );
   }
@@ -209,7 +209,7 @@ class SecureKeyboardKeyGenerator {
   /// Returns the done action key.
   SecureKeyboardKey _doneActionKey() {
     return SecureKeyboardKey(
-      type: SecureKeyboardKeyType.Action,
+      type: SecureKeyboardKeyType.ACTION,
       action: SecureKeyboardKeyAction.DONE
     );
   }
@@ -217,7 +217,7 @@ class SecureKeyboardKeyGenerator {
   /// Returns the clear action key.
   SecureKeyboardKey _clearActionKey() {
     return SecureKeyboardKey(
-      type: SecureKeyboardKeyType.Action,
+      type: SecureKeyboardKeyType.ACTION,
       action: SecureKeyboardKeyAction.CLEAR
     );
   }
@@ -225,7 +225,7 @@ class SecureKeyboardKeyGenerator {
   /// Returns the shift action key.
   SecureKeyboardKey _shiftActionKey() {
     return SecureKeyboardKey(
-      type: SecureKeyboardKeyType.Action,
+      type: SecureKeyboardKeyType.ACTION,
       action: SecureKeyboardKeyAction.SHIFT
     );
   }
@@ -233,7 +233,7 @@ class SecureKeyboardKeyGenerator {
   /// Returns the blank action key.
   SecureKeyboardKey _blankActionKey() {
     return SecureKeyboardKey(
-      type: SecureKeyboardKeyType.Action,
+      type: SecureKeyboardKeyType.ACTION,
       action: SecureKeyboardKeyAction.BLANK
     );
   }
@@ -241,7 +241,7 @@ class SecureKeyboardKeyGenerator {
   /// Returns the specialChars action key.
   SecureKeyboardKey _specialCharsActionKey() {
     return SecureKeyboardKey(
-      type: SecureKeyboardKeyType.Action,
+      type: SecureKeyboardKeyType.ACTION,
       action: SecureKeyboardKeyAction.SPECIAL_CHARACTERS
     );
   }

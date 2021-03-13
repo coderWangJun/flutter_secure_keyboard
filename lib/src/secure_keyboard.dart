@@ -177,7 +177,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
   }
 
   void _onKeyPressed(SecureKeyboardKey key) {
-    if (key.type == SecureKeyboardKeyType.String) {
+    if (key.type == SecureKeyboardKeyType.STRING) {
       // The length of `charCodes` cannot exceed `maxLength`.
       if (widget.maxLength != null && widget.maxLength <= _charCodes.length)
         return;
@@ -187,7 +187,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
           : key.text;
       setState(() => _charCodes.add(keyText.codeUnits.first));
       widget.onCharCodesChanged(_charCodes);
-    } else if (key.type == SecureKeyboardKeyType.Action) {
+    } else if (key.type == SecureKeyboardKeyType.ACTION) {
       switch (key.action) {
         // Backspace
         case SecureKeyboardKeyAction.BACKSPACE:
@@ -379,9 +379,9 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
             final key = keyRows[rowNum][keyNum];
             
             switch (key.type) {
-              case SecureKeyboardKeyType.String:
+              case SecureKeyboardKeyType.STRING:
                 return _buildStringKey(key, keyRows.length);
-              case SecureKeyboardKeyType.Action:
+              case SecureKeyboardKeyType.ACTION:
                 return _buildActionKey(key, keyRows.length);
               default:
                 throw Exception('Unknown key type.');
