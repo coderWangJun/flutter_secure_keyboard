@@ -101,6 +101,7 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
           maxLength: widget.controller._maxLength,
           alwaysCaps: widget.controller._alwaysCaps,
           obscureText: widget.controller._obscureText,
+          shuffleNumericKey: widget.controller._shuffleNumericKey,
           height: widget.keyboardHeight,
           backgroundColor: widget.backgroundColor,
           stringKeyColor: widget.stringKeyColor,
@@ -197,6 +198,7 @@ class SecureKeyboardController extends ChangeNotifier {
   int _maxLength;
   bool _alwaysCaps;
   bool _obscureText;
+  bool _shuffleNumericKey;
 
   ValueChanged<SecureKeyboardKey> _onKeyPressed;
   ValueChanged<List<int>> _onCharCodesChanged;
@@ -216,6 +218,7 @@ class SecureKeyboardController extends ChangeNotifier {
     int maxLength,
     bool alwaysCaps = false,
     bool obscureText = true,
+    bool shuffleNumericKey = true,
     ValueChanged<SecureKeyboardKey> onKeyPressed,
     ValueChanged<List<int>> onCharCodesChanged,
     ValueChanged<List<int>> onDoneKeyPressed,
@@ -239,6 +242,7 @@ class SecureKeyboardController extends ChangeNotifier {
     _maxLength = maxLength;
     _alwaysCaps = alwaysCaps;
     _obscureText = obscureText;
+    _shuffleNumericKey = shuffleNumericKey;
     _onKeyPressed = onKeyPressed;
     _onCharCodesChanged = onCharCodesChanged;
     _onDoneKeyPressed = onDoneKeyPressed;
@@ -260,6 +264,7 @@ class SecureKeyboardController extends ChangeNotifier {
     _maxLength = null;
     _alwaysCaps = null;
     _obscureText = null;
+    _shuffleNumericKey = null;
     _onKeyPressed = null;
     _onCharCodesChanged = null;
     _onDoneKeyPressed = null;

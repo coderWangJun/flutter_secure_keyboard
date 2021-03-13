@@ -164,6 +164,7 @@ class _WithSecureKeyboardExampleState extends State<WithSecureKeyboardExample> {
 | `maxLength` | Set the maximum length of text that can be entered. |
 | `alwaysCaps` | Whether to always display uppercase characters. |
 | `obscureText` | Whether to hide input text as secure characters. |
+| `shuffleNumericKey` | Whether to shuffle the position of the numeric keys. |
 | `onKeyPressed` | Called when the key is pressed. |
 | `onCharCodesChanged` | Called when the character codes changed. |
 | `onDoneKeyPressed` | Called when the done key is pressed. |

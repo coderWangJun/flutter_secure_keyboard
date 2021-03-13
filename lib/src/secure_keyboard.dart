@@ -61,6 +61,9 @@ class SecureKeyboard extends StatefulWidget {
   /// Whether to hide input text as secure characters.
   final bool obscureText;
 
+  /// Whether to shuffle the position of the numeric keys.
+  final bool shuffleNumericKey;
+
   /// Parameter to set the keyboard height.
   final double height;
 
@@ -111,6 +114,7 @@ class SecureKeyboard extends StatefulWidget {
     this.maxLength,
     this.alwaysCaps = false,
     this.obscureText = true,
+    this.shuffleNumericKey = true,
     this.height = keyboardDefaultHeight,
     this.backgroundColor = const Color(0xFF0A0A0A),
     this.stringKeyColor = const Color(0xFF313131),
@@ -148,9 +152,9 @@ class SecureKeyboard extends StatefulWidget {
 class _SecureKeyboardState extends State<SecureKeyboard> {
   final _methodChannel = const MethodChannel('flutter_secure_keyboard');
 
-  final _definedKeyRows = List<List<SecureKeyboardKey>>();
-  final _specialKeyRows = List<List<SecureKeyboardKey>>();
-  final _charCodes = List<int>();
+  final _definedKeyRows = <List<SecureKeyboardKey>>[];
+  final _specialKeyRows = <List<SecureKeyboardKey>>[];
+  final _charCodes = <int>[];
   
   Timer _backspaceEventGenerator;
 
@@ -168,10 +172,11 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     _charCodes.clear();
     _charCodes.addAll(widget.initText.codeUnits);
 
+    final keyGenerator = SecureKeyboardKeyGenerator.instance;
     if (widget.type == SecureKeyboardType.NUMERIC)
-      _definedKeyRows.addAll(SecureKeyboardKeyGenerator.instance.getNumericKeyRows());
+      _definedKeyRows.addAll(keyGenerator.getNumericKeyRows(widget.shuffleNumericKey));
     else
-      _definedKeyRows.addAll(SecureKeyboardKeyGenerator.instance.getAlphanumericKeyRows());
+      _definedKeyRows.addAll(keyGenerator.getAlphanumericKeyRows(widget.shuffleNumericKey));
 
     _specialKeyRows.addAll(SecureKeyboardKeyGenerator.instance.getSpecialCharsKeyRows());
   }

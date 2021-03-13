@@ -41,7 +41,7 @@ class SecureKeyboardKeyGenerator {
   ];
 
   /// Returns a list of numeric key rows.
-  List<List<SecureKeyboardKey>> getNumericKeyRows() {
+  List<List<SecureKeyboardKey>> getNumericKeyRows(bool shuffle) {
     final random = Random();
     int randomIndex;
     int emptyLength;
@@ -73,7 +73,8 @@ class SecureKeyboardKeyGenerator {
               rowKeys.insert(randomIndex, _blankActionKey());
           }
 
-          rowKeys.shuffle();
+          if (shuffle)
+            rowKeys.shuffle();
       }
 
       return rowKeys;
@@ -81,7 +82,7 @@ class SecureKeyboardKeyGenerator {
   }
 
   /// Returns a list of alphanumeric key rows.
-  List<List<SecureKeyboardKey>> getAlphanumericKeyRows() {
+  List<List<SecureKeyboardKey>> getAlphanumericKeyRows(bool shuffle) {
     final random = Random();
     int randomIndex;
     int emptyLength;
@@ -126,7 +127,7 @@ class SecureKeyboardKeyGenerator {
               rowKeys.insert(randomIndex, _blankActionKey());
           }
 
-          if (rowNum == 0)
+          if (rowNum == 0 && shuffle)
             rowKeys.shuffle();
       }
 
