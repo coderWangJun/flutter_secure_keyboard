@@ -151,7 +151,6 @@ class _WithSecureKeyboardExampleState extends State<WithSecureKeyboardExample> {
 | Function | Description |
 |---|---|
 | `isShowing` | Whether the secure keyboard is open. |
-| `type` | Indicates the secure keyboard type. |
 | `show` | Show a secure keyboard. |
 | `hide` | Hide a secure keyboard. |
 

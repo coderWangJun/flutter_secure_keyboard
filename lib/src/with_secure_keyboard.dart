@@ -50,7 +50,7 @@ class WithSecureKeyboard extends StatefulWidget {
 
   /// Set the color to display when activated with the shift action key.
   /// If the value is null, `doneKeyColor` is used.
-  final Color activatedKeyColor;
+  final Color? activatedKeyColor;
 
   /// Parameter to set keyboard key text style.
   /// Default value is `TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold)`.
@@ -61,18 +61,18 @@ class WithSecureKeyboard extends StatefulWidget {
   final TextStyle inputTextStyle;
 
   /// Security Alert title, only works on ios.
-  final String screenCaptureDetectedAlertTitle;
+  final String? screenCaptureDetectedAlertTitle;
 
   /// Security Alert message, only works on ios.
-  final String screenCaptureDetectedAlertMessage;
+  final String? screenCaptureDetectedAlertMessage;
 
   /// Security Alert actionTitle, only works on ios.
-  final String screenCaptureDetectedAlertActionTitle;
+  final String? screenCaptureDetectedAlertActionTitle;
 
   WithSecureKeyboard({
-    Key key,
-    @required this.controller,
-    @required this.child,
+    Key? key,
+    required this.controller,
+    required this.child,
     this.keyboardHeight = keyboardDefaultHeight,
     this.keyRadius = keyboardKeyDefaultRadius,
     this.keySpacing = keyboardKeyDefaultSpacing,
@@ -88,20 +88,7 @@ class WithSecureKeyboard extends StatefulWidget {
     this.screenCaptureDetectedAlertTitle,
     this.screenCaptureDetectedAlertMessage,
     this.screenCaptureDetectedAlertActionTitle
-  })  : assert(controller != null),
-        assert(child != null),
-        assert(keyboardHeight != null),
-        assert(keyRadius != null),
-        assert(keySpacing != null),
-        assert(keyInputMonitorPadding != null),
-        assert(keyboardPadding != null),
-        assert(backgroundColor != null),
-        assert(stringKeyColor != null),
-        assert(actionKeyColor != null),
-        assert(doneKeyColor != null),
-        assert(keyTextStyle != null),
-        assert(inputTextStyle != null),
-        super(key: key);
+  })  : super(key: key);
 
   @override
   _WithSecureKeyboardState createState() => _WithSecureKeyboardState();
@@ -122,7 +109,7 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
         final onCloseKeyPressed = widget.controller._onCloseKeyPressed;
 
         secureKeyboard = SecureKeyboard(
-          type: widget.controller.type,
+          type: widget.controller._type,
           initText: widget.controller._initText,
           hintText: widget.controller._hintText,
           inputTextLengthSymbol: widget.controller._inputTextLengthSymbol,
@@ -172,11 +159,13 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
       }
     });
 
-    if (widget.controller._textFieldFocusNode != null) {
-      final duration = const Duration(milliseconds: 300);
-      await Future.delayed(duration);
-      Scrollable.ensureVisible(widget.controller._textFieldFocusNode.context, duration: duration);
-    }
+    final textFieldFocusNode = widget.controller._textFieldFocusNode;
+    if (textFieldFocusNode == null) return;
+    if (textFieldFocusNode.context == null) return;
+
+    final duration = const Duration(milliseconds: 300);
+    await Future.delayed(duration);
+    Scrollable.ensureVisible(textFieldFocusNode.context!, duration: duration);
   }
 
   @override
@@ -219,51 +208,44 @@ class SecureKeyboardController extends ChangeNotifier {
   /// Whether the secure keyboard is open.
   bool get isShowing => _isShowing;
 
-  SecureKeyboardType _type;
-  /// Indicates the secure keyboard type.
-  SecureKeyboardType get type => _type;
+  late SecureKeyboardType _type;
+  FocusNode? _textFieldFocusNode;
+  String? _initText;
+  String? _hintText;
+  String? _inputTextLengthSymbol;
+  String? _doneKeyText;
+  String? _clearKeyText;
+  late String _obscuringCharacter;
+  int? _maxLength;
+  late bool _alwaysCaps;
+  late bool _obscureText;
+  late bool _shuffleNumericKey;
 
-  FocusNode _textFieldFocusNode;
-  String _initText;
-  String _hintText;
-  String _inputTextLengthSymbol;
-  String _doneKeyText;
-  String _clearKeyText;
-  String _obscuringCharacter;
-  int _maxLength;
-  bool _alwaysCaps;
-  bool _obscureText;
-  bool _shuffleNumericKey;
-
-  ValueChanged<SecureKeyboardKey> _onKeyPressed;
-  ValueChanged<List<int>> _onCharCodesChanged;
-  ValueChanged<List<int>> _onDoneKeyPressed;
-  VoidCallback _onCloseKeyPressed;
+  ValueChanged<SecureKeyboardKey>? _onKeyPressed;
+  ValueChanged<List<int>>? _onCharCodesChanged;
+  ValueChanged<List<int>>? _onDoneKeyPressed;
+  VoidCallback? _onCloseKeyPressed;
 
   /// Show a secure keyboard.
   void show({
-    @required SecureKeyboardType type,
-    FocusNode textFieldFocusNode,
-    String initText,
-    String hintText,
-    String inputTextLengthSymbol,
-    String doneKeyText,
-    String clearKeyText,
+    required SecureKeyboardType type,
+    FocusNode? textFieldFocusNode,
+    String? initText,
+    String? hintText,
+    String? inputTextLengthSymbol,
+    String? doneKeyText,
+    String? clearKeyText,
     String obscuringCharacter = '•',
-    int maxLength,
+    int? maxLength,
     bool alwaysCaps = false,
     bool obscureText = true,
     bool shuffleNumericKey = true,
-    ValueChanged<SecureKeyboardKey> onKeyPressed,
-    ValueChanged<List<int>> onCharCodesChanged,
-    ValueChanged<List<int>> onDoneKeyPressed,
-    VoidCallback onCloseKeyPressed
+    ValueChanged<SecureKeyboardKey>? onKeyPressed,
+    ValueChanged<List<int>>? onCharCodesChanged,
+    ValueChanged<List<int>>? onDoneKeyPressed,
+    VoidCallback? onCloseKeyPressed
   }) {
-    assert(type != null);
-    assert(obscuringCharacter != null && obscuringCharacter.isNotEmpty);
-    assert(alwaysCaps != null);
-    assert(obscureText != null);
-    assert(shuffleNumericKey != null);
+    assert(obscuringCharacter.isNotEmpty);
 
     _type = type;
     _textFieldFocusNode = textFieldFocusNode;
@@ -287,18 +269,18 @@ class SecureKeyboardController extends ChangeNotifier {
 
   /// Hide a secure keyboard.
   void hide() {
-    _type = null;
+    // _type = null;
     _textFieldFocusNode = null;
     _initText = null;
     _hintText = null;
     _inputTextLengthSymbol = null;
     _doneKeyText = null;
     _clearKeyText = null;
-    _obscuringCharacter = null;
+    // _obscuringCharacter = null;
     _maxLength = null;
-    _alwaysCaps = null;
-    _obscureText = null;
-    _shuffleNumericKey = null;
+    // _alwaysCaps = null;
+    // _obscureText = null;
+    // _shuffleNumericKey = null;
     _onKeyPressed = null;
     _onCharCodesChanged = null;
     _onDoneKeyPressed = null;

@@ -69,26 +69,26 @@ class SecureKeyboard extends StatefulWidget {
   final VoidCallback onCloseKeyPressed;
 
   /// Set the initial value of the input text.
-  final String initText;
+  final String? initText;
 
   /// The hint text to display when the input text is empty.
-  final String hintText;
+  final String? hintText;
 
   /// Set the symbol to use when displaying the input text length.
-  final String inputTextLengthSymbol;
+  final String? inputTextLengthSymbol;
 
   /// Set the done key text.
-  final String doneKeyText;
+  final String? doneKeyText;
 
   /// Set the clear key text.
-  final String clearKeyText;
+  final String? clearKeyText;
 
   /// Set the secure character to hide the input text.
   /// Default value is `•`.
   final String obscuringCharacter;
 
   /// Set the maximum length of text that can be entered.
-  final int maxLength;
+  final int? maxLength;
 
   /// Whether to always display uppercase characters.
   /// Default value is `false`.
@@ -140,7 +140,7 @@ class SecureKeyboard extends StatefulWidget {
 
   /// Set the color to display when activated with the shift action key.
   /// If the value is null, `doneKeyColor` is used.
-  final Color activatedKeyColor;
+  final Color? activatedKeyColor;
 
   /// Parameter to set keyboard key text style.
   /// Default value is `TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold)`.
@@ -151,21 +151,21 @@ class SecureKeyboard extends StatefulWidget {
   final TextStyle inputTextStyle;
 
   /// Security Alert title, only works on ios.
-  final String screenCaptureDetectedAlertTitle;
+  final String? screenCaptureDetectedAlertTitle;
 
   /// Security Alert message, only works on ios.
-  final String screenCaptureDetectedAlertMessage;
+  final String? screenCaptureDetectedAlertMessage;
 
   /// Security Alert actionTitle, only works on ios.
-  final String screenCaptureDetectedAlertActionTitle;
+  final String? screenCaptureDetectedAlertActionTitle;
 
   SecureKeyboard({
-    Key key,
-    @required this.type,
-    @required this.onKeyPressed,
-    @required this.onCharCodesChanged,
-    @required this.onDoneKeyPressed,
-    @required this.onCloseKeyPressed,
+    Key? key,
+    required this.type,
+    required this.onKeyPressed,
+    required this.onCharCodesChanged,
+    required this.onDoneKeyPressed,
+    required this.onCloseKeyPressed,
     this.initText,
     this.hintText,
     this.inputTextLengthSymbol,
@@ -191,26 +191,7 @@ class SecureKeyboard extends StatefulWidget {
     this.screenCaptureDetectedAlertTitle,
     this.screenCaptureDetectedAlertMessage,
     this.screenCaptureDetectedAlertActionTitle
-  })  : assert(type != null),
-        assert(onKeyPressed != null),
-        assert(onCharCodesChanged != null),
-        assert(onDoneKeyPressed != null),
-        assert(onCloseKeyPressed != null),
-        assert(obscuringCharacter != null && obscuringCharacter.isNotEmpty),
-        assert(alwaysCaps != null),
-        assert(obscureText != null),
-        assert(shuffleNumericKey != null),
-        assert(height != null),
-        assert(keyRadius != null),
-        assert(keySpacing != null),
-        assert(keyInputMonitorPadding != null),
-        assert(keyboardPadding != null),
-        assert(backgroundColor != null),
-        assert(stringKeyColor != null),
-        assert(actionKeyColor != null),
-        assert(doneKeyColor != null),
-        assert(keyTextStyle != null),
-        assert(inputTextStyle != null),
+  })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
   @override
@@ -226,7 +207,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
   final _charCodesController = StreamController<List<int>>.broadcast();
   final _charCodes = <int>[];
   
-  Timer _backspaceEventGenerator;
+  Timer? _backspaceEventGenerator;
 
   bool _isViewEnabled = false;
   bool _isShiftEnabled = false;
@@ -241,7 +222,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     _specialKeyRows.clear();
     _charCodes.clear();
     if (widget.initText != null)
-      _charCodes.addAll(widget.initText.codeUnits);
+      _charCodes.addAll(widget.initText!.codeUnits);
 
     final keyGenerator = SecureKeyboardKeyGenerator.instance;
     if (widget.type == SecureKeyboardType.NUMERIC)
@@ -258,12 +239,14 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
   void _onKeyPressed(SecureKeyboardKey key) {
     if (key.type == SecureKeyboardKeyType.STRING) {
       // The length of `charCodes` cannot exceed `maxLength`.
-      if (widget.maxLength != null && widget.maxLength <= _charCodes.length)
+      final currMaxLength = widget.maxLength;
+      if (currMaxLength != null && (currMaxLength <= _charCodes.length))
         return;
 
       final keyText = (_isShiftEnabled || widget.alwaysCaps)
           ? key.capsText
           : key.text;
+      if (keyText == null) return;
 
       _charCodes.add(keyText.codeUnits.first);
       _notifyCharCodesChanged();
@@ -351,7 +334,10 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     );
 
     return WillPopScope(
-      onWillPop: widget.onCloseKeyPressed,
+      onWillPop: () async {
+        widget.onCloseKeyPressed();
+        return false;
+      },
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: widget.height + keyInputMonitorHeight,
@@ -380,7 +366,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
       ),
       initialData: _charCodes,
       builder: (context, snapshot) =>
-          _buildKeyInputMonitorLayout(snapshot.data)
+          _buildKeyInputMonitorLayout(snapshot.data ?? _charCodes)
     );
   }
 
@@ -405,11 +391,12 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     } else {
       secureText = widget.hintText ?? '';
       secureTextStyle = widget.inputTextStyle.copyWith(
-          color: widget.inputTextStyle.color.withOpacity(0.5));
+          color: widget.inputTextStyle.color?.withOpacity(0.5));
     }
 
-    final lengthSymbol = widget.inputTextLengthSymbol
-        ?? (Platform.localeName == 'ko_KR') ? '자' : 'digit';
+    String? lengthSymbol = widget.inputTextLengthSymbol;
+    if (lengthSymbol == null)
+      lengthSymbol = (Platform.localeName == 'ko_KR') ? '자' : 'digit';
     final lengthText = '${charCodes.length}$lengthSymbol';
 
     return SizedBox(
@@ -504,6 +491,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     final keyText = (_isShiftEnabled || widget.alwaysCaps)
         ? key.capsText
         : key.text;
+    final stringKey = Text(keyText ?? '', style: widget.keyTextStyle);
 
     return Expanded(
       child: Container(
@@ -515,7 +503,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
           child: InkWell(
             borderRadius: BorderRadius.circular(widget.keyRadius),
             onTap: () => _onKeyPressed(key),
-            child: Center(child: Text(keyText, style: widget.keyTextStyle))
+            child: Center(child: stringKey)
           ),
         ),
       ),
@@ -523,10 +511,8 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
   }
 
   Widget _buildActionKey(SecureKeyboardKey key, int keyRowsLength) {
-    String keyText;
     Widget actionKey;
-
-    switch (key.action) {
+    switch (key.action ?? SecureKeyboardKeyAction.BLANK) {
       case SecureKeyboardKeyAction.BACKSPACE:
         actionKey = GestureDetector(
           onLongPress: () {
@@ -534,10 +520,8 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
             _backspaceEventGenerator = Timer.periodic(delay, (_) => _onKeyPressed(key));
           },
           onLongPressUp: () {
-            if (_backspaceEventGenerator != null) {
-              _backspaceEventGenerator.cancel();
-              _backspaceEventGenerator = null;
-            }
+            _backspaceEventGenerator?.cancel();
+            _backspaceEventGenerator = null;
           },
           child: Icon(Icons.backspace, color: widget.keyTextStyle.color)
         );
@@ -546,14 +530,14 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
         actionKey = Icon(Icons.arrow_upward, color: widget.keyTextStyle.color);
         break;
       case SecureKeyboardKeyAction.CLEAR:
-        keyText = widget.clearKeyText;
+        String? keyText = widget.clearKeyText;
         if (keyText == null || keyText.isEmpty)
           keyText = (Platform.localeName == 'ko_KR') ? '초기화' : 'Clear';
 
         actionKey = Text(keyText, style: widget.keyTextStyle);
         break;
       case SecureKeyboardKeyAction.DONE:
-        keyText = widget.doneKeyText;
+        String? keyText = widget.doneKeyText;
         if (keyText == null || keyText.isEmpty)
           keyText = (Platform.localeName == 'ko_KR') ? '입력완료' : 'Done';
 
