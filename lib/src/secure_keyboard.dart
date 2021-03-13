@@ -17,6 +17,26 @@ const double keyboardDefaultHeight = 280.0;
 /// Speed ​​of erasing input text when holding backspace.
 const int backspaceEventDelay = 100;
 
+/// Keyboard default background color.
+const Color keyboardDefaultBackgroundColor = Color(0xFF0A0A0A);
+
+/// Keyboard default string key color.
+const Color keyboardDefaultStringKeyColor = Color(0xFF313131);
+
+/// Keyboard default action key color.
+const Color keyboardDefaultActionKeyColor = Color(0xFF222222);
+
+/// Keyboard default done key color.
+const Color keyboardDefaultDoneKeyColor = Color(0xFF1C7CDC);
+
+/// Keyboard default key text style.
+const TextStyle keyboardDefaultKeyTextStyle = TextStyle(
+    color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold);
+
+/// Keyboard default input text style.
+const TextStyle keyboardDefaultInputTextStyle = TextStyle(
+    color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold);
+
 /// Widget that implements a secure keyboard.
 class SecureKeyboard extends StatefulWidget {
   /// Specifies the secure keyboard type.
@@ -69,18 +89,23 @@ class SecureKeyboard extends StatefulWidget {
   final bool shuffleNumericKey;
 
   /// Parameter to set the keyboard height.
+  /// Default value is `280.0`.
   final double height;
 
   /// Parameter to set the keyboard background color.
+  /// Default value is `Color(0xFF0A0A0A)`.
   final Color backgroundColor;
 
   /// Parameter to set keyboard string key(alphanumeric, numeric..) color.
+  /// Default value is `Color(0xFF313131)`.
   final Color stringKeyColor;
 
   /// Parameter to set keyboard action key(shift, backspace, clear..) color.
+  /// Default value is `Color(0xFF222222)`.
   final Color actionKeyColor;
 
   /// Parameter to set keyboard done key color.
+  /// Default value is `Color(0xFF1C7CDC)`.
   final Color doneKeyColor;
 
   /// Set the color to display when activated with the shift action key.
@@ -88,9 +113,11 @@ class SecureKeyboard extends StatefulWidget {
   final Color activatedKeyColor;
 
   /// Parameter to set keyboard key text style.
+  /// Default value is `TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold)`.
   final TextStyle keyTextStyle;
 
   /// Parameter to set keyboard input text style.
+  /// Default value is `TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold)`.
   final TextStyle inputTextStyle;
 
   /// Security Alert title, only works on ios.
@@ -120,13 +147,13 @@ class SecureKeyboard extends StatefulWidget {
     this.obscureText = true,
     this.shuffleNumericKey = true,
     this.height = keyboardDefaultHeight,
-    this.backgroundColor = const Color(0xFF0A0A0A),
-    this.stringKeyColor = const Color(0xFF313131),
-    this.actionKeyColor = const Color(0xFF222222),
-    this.doneKeyColor = const Color(0xFF1C7CDC),
+    this.backgroundColor = keyboardDefaultBackgroundColor,
+    this.stringKeyColor = keyboardDefaultStringKeyColor,
+    this.actionKeyColor = keyboardDefaultActionKeyColor,
+    this.doneKeyColor = keyboardDefaultDoneKeyColor,
     this.activatedKeyColor,
-    this.keyTextStyle = const TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold),
-    this.inputTextStyle = const TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold),
+    this.keyTextStyle = keyboardDefaultKeyTextStyle,
+    this.inputTextStyle = keyboardDefaultInputTextStyle,
     this.screenCaptureDetectedAlertTitle,
     this.screenCaptureDetectedAlertMessage,
     this.screenCaptureDetectedAlertActionTitle
