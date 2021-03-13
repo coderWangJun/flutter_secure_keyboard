@@ -216,8 +216,8 @@ class SecureKeyboardController extends ChangeNotifier {
   void show({
     @required SecureKeyboardType type,
     FocusNode textFieldFocusNode,
-    String initText = '',
-    String hintText = '',
+    String initText,
+    String hintText,
     String inputTextLengthSymbol,
     String doneKeyText,
     String clearKeyText,
@@ -232,11 +232,10 @@ class SecureKeyboardController extends ChangeNotifier {
     VoidCallback onCloseKeyPressed
   }) {
     assert(type != null);
-    assert(initText != null);
-    assert(hintText != null);
     assert(obscuringCharacter != null && obscuringCharacter.isNotEmpty);
     assert(alwaysCaps != null);
     assert(obscureText != null);
+    assert(shuffleNumericKey != null);
 
     _type = type;
     _textFieldFocusNode = textFieldFocusNode;
