@@ -1,3 +1,9 @@
+## 2.0.0
+
+* Migrate null safety.
+* Upgrade `flutter_keyboard_visibility` plugin.
+* Remove `type` function in `SecureKeyboardController`.
+
 ## 1.1.0
 
 * Upgrade `flutter_keyboard_visibility` plugin.
