@@ -131,6 +131,8 @@ class _WithSecureKeyboardExampleState extends State<WithSecureKeyboardExample> {
 | `controller`* | Controller for controlling the secure keyboard. |
 | `child`* | A widget to have a secure keyboard. |
 | `keyboardHeight` | Parameter to set the keyboard height. <br> Default value is `280.0`. |
+| `keyRadius` | Set the radius of the keyboard key. <br> Default value is `4.0`. |
+| `keySpacing` | Set the spacing between keyboard keys. <br> Default value is `1.3`. |
 | `backgroundColor` | Parameter to set the keyboard background color. <br> Default value is `Color(0xFF0A0A0A)`. |
 | `stringKeyColor` | Parameter to set keyboard string key(alphanumeric, numeric..) color. <br> Default value is `Color(0xFF313131)`. |
 | `actionKeyColor` | Parameter to set keyboard action key(shift, backspace, clear..) color. <br> Default value is `Color(0xFF222222)`. |

@@ -18,7 +18,7 @@ const double keyboardDefaultHeight = 280.0;
 const double keyboardKeyDefaultRadius = 4.0;
 
 /// Keyboard key default spacing.
-const double keyboardKeyDefaultSpacing = 1.5;
+const double keyboardKeyDefaultSpacing = 1.3;
 
 /// Speed ​​of erasing input text when holding backspace.
 const int backspaceEventDelay = 100;
@@ -98,6 +98,14 @@ class SecureKeyboard extends StatefulWidget {
   /// Default value is `280.0`.
   final double height;
 
+  /// Set the radius of the keyboard key.
+  /// Default value is `4.0`.
+  final double keyRadius;
+
+  /// Set the spacing between keyboard keys.
+  /// Default value is `1.3`.
+  final double keySpacing;
+
   /// Parameter to set the keyboard background color.
   /// Default value is `Color(0xFF0A0A0A)`.
   final Color backgroundColor;
@@ -153,6 +161,8 @@ class SecureKeyboard extends StatefulWidget {
     this.obscureText = true,
     this.shuffleNumericKey = true,
     this.height = keyboardDefaultHeight,
+    this.keyRadius = keyboardKeyDefaultRadius,
+    this.keySpacing = keyboardKeyDefaultSpacing,
     this.backgroundColor = keyboardDefaultBackgroundColor,
     this.stringKeyColor = keyboardDefaultStringKeyColor,
     this.actionKeyColor = keyboardDefaultActionKeyColor,
@@ -173,6 +183,8 @@ class SecureKeyboard extends StatefulWidget {
         assert(obscureText != null),
         assert(shuffleNumericKey != null),
         assert(height != null),
+        assert(keyRadius != null),
+        assert(keySpacing != null),
         assert(backgroundColor != null),
         assert(stringKeyColor != null),
         assert(actionKeyColor != null),
@@ -465,12 +477,12 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     return Expanded(
       child: Container(
         height: widget.height / keyRowsLength,
-        padding: const EdgeInsets.all(keyboardKeyDefaultSpacing),
+        padding: EdgeInsets.all(widget.keySpacing),
         child: Material(
-          borderRadius: BorderRadius.circular(keyboardKeyDefaultRadius),
+          borderRadius: BorderRadius.circular(widget.keyRadius),
           color: widget.stringKeyColor,
           child: InkWell(
-            borderRadius: BorderRadius.circular(keyboardKeyDefaultRadius),
+            borderRadius: BorderRadius.circular(widget.keyRadius),
             onTap: () => _onKeyPressed(key),
             child: Center(child: Text(keyText, style: widget.keyTextStyle))
           ),
@@ -539,12 +551,12 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     return Expanded(
       child: Container(
         height: widget.height / keyRowsLength,
-        padding: const EdgeInsets.all(keyboardKeyDefaultSpacing),
+        padding: EdgeInsets.all(widget.keySpacing),
         child: Material(
-          borderRadius: BorderRadius.circular(keyboardKeyDefaultRadius),
+          borderRadius: BorderRadius.circular(widget.keyRadius),
           color: keyColor,
           child: InkWell(
-            borderRadius: BorderRadius.circular(keyboardKeyDefaultRadius),
+            borderRadius: BorderRadius.circular(widget.keyRadius),
             onTap: () => _onKeyPressed(key),
             child: Center(child: actionKey)
           ),

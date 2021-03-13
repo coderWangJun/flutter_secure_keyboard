@@ -16,6 +16,14 @@ class WithSecureKeyboard extends StatefulWidget {
   /// Default value is `280.0`.
   final double keyboardHeight;
 
+  /// Set the radius of the keyboard key.
+  /// Default value is `4.0`.
+  final double keyRadius;
+
+  /// Set the spacing between keyboard keys.
+  /// Default value is `1.3`.
+  final double keySpacing;
+
   /// Parameter to set the keyboard background color.
   /// Default value is `Color(0xFF0A0A0A)`.
   final Color backgroundColor;
@@ -58,6 +66,8 @@ class WithSecureKeyboard extends StatefulWidget {
     @required this.controller,
     @required this.child,
     this.keyboardHeight = keyboardDefaultHeight,
+    this.keyRadius = keyboardKeyDefaultRadius,
+    this.keySpacing = keyboardKeyDefaultSpacing,
     this.backgroundColor = keyboardDefaultBackgroundColor,
     this.stringKeyColor = keyboardDefaultStringKeyColor,
     this.actionKeyColor = keyboardDefaultActionKeyColor,
@@ -71,6 +81,8 @@ class WithSecureKeyboard extends StatefulWidget {
   })  : assert(controller != null),
         assert(child != null),
         assert(keyboardHeight != null),
+        assert(keyRadius != null),
+        assert(keySpacing != null),
         assert(backgroundColor != null),
         assert(stringKeyColor != null),
         assert(actionKeyColor != null),
@@ -110,6 +122,8 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
           obscureText: widget.controller._obscureText,
           shuffleNumericKey: widget.controller._shuffleNumericKey,
           height: widget.keyboardHeight,
+          keyRadius: widget.keyRadius,
+          keySpacing: widget.keySpacing,
           backgroundColor: widget.backgroundColor,
           stringKeyColor: widget.stringKeyColor,
           actionKeyColor: widget.actionKeyColor,
