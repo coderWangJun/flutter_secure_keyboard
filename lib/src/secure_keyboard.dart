@@ -168,7 +168,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     _charCodes.clear();
     _charCodes.addAll(widget.initText.codeUnits);
 
-    if (widget.type == SecureKeyboardType.Numeric)
+    if (widget.type == SecureKeyboardType.NUMERIC)
       _definedKeyRows.addAll(SecureKeyboardKeyGenerator.instance.getNumericKeyRows());
     else
       _definedKeyRows.addAll(SecureKeyboardKeyGenerator.instance.getAlphanumericKeyRows());

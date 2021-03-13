@@ -67,7 +67,7 @@ class _WithSecureKeyboardExampleState extends State<WithSecureKeyboardExample> {
           obscureText: true,
           onTap: () {
             secureKeyboardController.show(
-              type: SecureKeyboardType.Alphanumeric,
+              type: SecureKeyboardType.ALPHA_NUMERIC,
               textFieldFocusNode: passwordTextFieldFocusNode,
               initText: passwordEditor.text,
               hintText: 'password',
@@ -95,7 +95,7 @@ class _WithSecureKeyboardExampleState extends State<WithSecureKeyboardExample> {
           obscureText: true,
           onTap: () {
             secureKeyboardController.show(
-              type: SecureKeyboardType.Numeric,
+              type: SecureKeyboardType.NUMERIC,
               textFieldFocusNode: pinCodeTextFieldFocusNode,
               initText: pinCodeEditor.text,
               hintText: 'pinCode',
