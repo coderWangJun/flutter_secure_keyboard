@@ -223,7 +223,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
   final _definedKeyRows = <List<SecureKeyboardKey>>[];
   final _specialKeyRows = <List<SecureKeyboardKey>>[];
 
-  final _charCodesController = StreamController<List<int>>();
+  final _charCodesController = StreamController<List<int>>.broadcast();
   final _charCodes = <int>[];
   
   Timer _backspaceEventGenerator;
@@ -375,7 +375,9 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
 
   Widget _buildKeyInputMonitor() {
     return StreamBuilder<List<int>>(
-      stream: _charCodesController.stream,
+      stream: _charCodesController.stream.asBroadcastStream(
+        onCancel: (subscription) => subscription.cancel()
+      ),
       initialData: _charCodes,
       builder: (context, snapshot) =>
           _buildKeyInputMonitorLayout(snapshot.data)

@@ -1,3 +1,14 @@
+## 1.1.0
+
+* Upgrade `flutter_keyboard_visibility` plugin.
+* Change the value of `SecureKeyboardKeyAction` to uppercase.
+* Change the value of `SecureKeyboardKeyType` to uppercase.
+* Change the value of `SecureKeyboardType` to uppercase.
+* Add `shuffleNumericKey` option to ask for shuffle of numeric keys.
+* Add `keyRadius` option to set the radius of the key button.
+* Add `keySpacing` option to set the spacing between key buttons.
+* Add `keyInputMonitorPadding`, `keyboardPadding` option to cope with edge screen.
+
 ## 1.0.6
 
 * Example updates.
@@ -8,11 +19,11 @@
 
 * README updates.
 * Example updates.
-* Remove onDoneKeyPressed required annotation.
+* Remove `onDoneKeyPressed` required annotation.
 
 ## 1.0.4
 
-* Add activatedKeyColor param.
+* Add `activatedKeyColor` param.
 
 ## 1.0.3
 
@@ -21,9 +32,9 @@
 
 ## 1.0.2
 
-* Add screenCaptureDetectedAlertTitle param.
-* Add screenCaptureDetectedAlertMessage param.
-* Add screenCaptureDetectedAlertActionTitle param.
+* Add `screenCaptureDetectedAlertTitle` param.
+* Add `screenCaptureDetectedAlertMessage` param.
+* Add `screenCaptureDetectedAlertActionTitle` param.
 
 ## 1.0.1+3
 

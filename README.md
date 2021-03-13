@@ -11,7 +11,7 @@ To use this plugin, add `flutter_secure_keyboard` as a [dependency in your pubsp
 
 ```yaml
 dependencies:
-  flutter_secure_keyboard: ^1.0.6
+  flutter_secure_keyboard: ^1.1.0
 ```
 
 ## Examples
@@ -132,7 +132,7 @@ class _WithSecureKeyboardExampleState extends State<WithSecureKeyboardExample> {
 | `child`* | A widget to have a secure keyboard. |
 | `keyboardHeight` | Parameter to set the keyboard height. <br> Default value is `280.0`. |
 | `keyRadius` | Set the radius of the keyboard key. <br> Default value is `4.0`. |
-| `keySpacing` | Set the spacing between keyboard keys. <br> Default value is `1.3`. |
+| `keySpacing` | Set the spacing between keyboard keys. <br> Default value is `1.4`. |
 | `keyInputMonitorPadding` | Set the padding of the key input monitor. <br> Default value is `EdgeInsets.only(left: 10.0, right: 5.0)`. |
 | `keyboardPadding` | Set the padding of the keyboard. <br> Default value is `EdgeInsets.symmetric(horizontal: 5.0)`. |
 | `backgroundColor` | Parameter to set the keyboard background color. <br> Default value is `Color(0xFF0A0A0A)`. |
