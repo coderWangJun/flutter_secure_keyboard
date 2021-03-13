@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_keyboard/src/secure_keyboard_key_action.dart';
 import 'package:flutter_secure_keyboard/src/secure_keyboard_key_type.dart';
 

@@ -328,6 +328,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     final keyboard = Padding(
       padding: widget.keyboardPadding,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: _buildKeyboardKey(keyRows)
       ),
@@ -343,6 +344,8 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
         height: widget.height + keyInputMonitorHeight,
         color: widget.backgroundColor,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             keyInputMonitor,
             keyboard
