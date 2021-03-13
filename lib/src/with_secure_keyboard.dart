@@ -13,18 +13,23 @@ class WithSecureKeyboard extends StatefulWidget {
   final Widget child;
 
   /// Parameter to set the keyboard height.
+  /// Default value is `280.0`.
   final double keyboardHeight;
 
   /// Parameter to set the keyboard background color.
+  /// Default value is `Color(0xFF0A0A0A)`.
   final Color backgroundColor;
 
   /// Parameter to set keyboard string key(alphanumeric, numeric..) color.
+  /// Default value is `Color(0xFF313131)`.
   final Color stringKeyColor;
 
   /// Parameter to set keyboard action key(shift, backspace, clear..) color.
+  /// Default value is `Color(0xFF222222)`.
   final Color actionKeyColor;
 
   /// Parameter to set keyboard done key color.
+  /// Default value is `Color(0xFF1C7CDC)`.
   final Color doneKeyColor;
 
   /// Set the color to display when activated with the shift action key.
@@ -32,9 +37,11 @@ class WithSecureKeyboard extends StatefulWidget {
   final Color activatedKeyColor;
 
   /// Parameter to set keyboard key text style.
+  /// Default value is `TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold)`.
   final TextStyle keyTextStyle;
 
   /// Parameter to set keyboard input text style.
+  /// Default value is `TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold)`.
   final TextStyle inputTextStyle;
 
   /// Security Alert title, only works on ios.

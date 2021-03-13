@@ -50,18 +50,22 @@ class SecureKeyboard extends StatefulWidget {
   final String clearKeyText;
 
   /// Set the secure character to hide the input text.
+  /// Default value is `•`.
   final String obscuringCharacter;
 
   /// Set the maximum length of text that can be entered.
   final int maxLength;
 
   /// Whether to always display uppercase characters.
+  /// Default value is `false`.
   final bool alwaysCaps;
 
   /// Whether to hide input text as secure characters.
+  /// Default value is `true`.
   final bool obscureText;
 
   /// Whether to shuffle the position of the numeric keys.
+  /// Default value is `true`.
   final bool shuffleNumericKey;
 
   /// Parameter to set the keyboard height.

@@ -117,10 +117,12 @@ class _WithSecureKeyboardExampleState extends State<WithSecureKeyboardExample> {
 }
 ```
 
-## Package composition
+## Package
 
 * [WithSecureKeyboard] - A widget that implements a secure keyboard with controller.
 * [SecureKeyboardController] - Controller to check or control the state of the secure keyboard.
+
+**Note:** The parameters marked with an asterisk(*) are required.
 
 ### WithSecureKeyboard
 
@@ -128,14 +130,14 @@ class _WithSecureKeyboardExampleState extends State<WithSecureKeyboardExample> {
 |---|---|
 | `controller`* | Controller for controlling the secure keyboard. |
 | `child`* | A widget to have a secure keyboard. |
-| `keyboardHeight` | Parameter to set the keyboard height. |
-| `backgroundColor` | Parameter to set the keyboard background color. |
-| `stringKeyColor` | Parameter to set keyboard string key(alphanumeric, numeric..) color. |
-| `actionKeyColor` | Parameter to set keyboard action key(shift, backspace, clear..) color. |
-| `doneKeyColor` | Parameter to set keyboard done key color. |
+| `keyboardHeight` | Parameter to set the keyboard height. <br> Default value is `280.0`. |
+| `backgroundColor` | Parameter to set the keyboard background color. <br> Default value is `Color(0xFF0A0A0A)`. |
+| `stringKeyColor` | Parameter to set keyboard string key(alphanumeric, numeric..) color. <br> Default value is `Color(0xFF313131)`. |
+| `actionKeyColor` | Parameter to set keyboard action key(shift, backspace, clear..) color. <br> Default value is `Color(0xFF222222)`. |
+| `doneKeyColor` | Parameter to set keyboard done key color. <br> Default value is `Color(0xFF1C7CDC)`. |
 | `activatedKeyColor` | Set the color to display when activated with the shift action key. If the value is null, `doneKeyColor` is used. |
-| `keyTextStyle` | Parameter to set keyboard key text style. |
-| `inputTextStyle` | Parameter to set keyboard input text style. |
+| `keyTextStyle` | Parameter to set keyboard key text style. <br> Default value is `TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold)`. |
+| `inputTextStyle` | Parameter to set keyboard input text style. <br> Default value is `TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold)`. |
 | `screenCaptureDetectedAlertTitle` | Security Alert title, only works on ios. |
 | `screenCaptureDetectedAlertMessage` | Security Alert message, only works on ios |
 | `screenCaptureDetectedAlertActionTitle` | Security Alert actionTitle, only works on ios. |
@@ -160,11 +162,11 @@ class _WithSecureKeyboardExampleState extends State<WithSecureKeyboardExample> {
 | `inputTextLengthSymbol` | Set the symbol to use when displaying the input text length. |
 | `doneKeyText` | Set the done key text. |
 | `clearKeyText` | Set the clear key text. |
-| `obscuringCharacter` | Set the secure character to hide the input text. |
+| `obscuringCharacter` | Set the secure character to hide the input text. <br> Default value is `•`. |
 | `maxLength` | Set the maximum length of text that can be entered. |
-| `alwaysCaps` | Whether to always display uppercase characters. |
-| `obscureText` | Whether to hide input text as secure characters. |
-| `shuffleNumericKey` | Whether to shuffle the position of the numeric keys. |
+| `alwaysCaps` | Whether to always display uppercase characters. <br> Default value is `false`. |
+| `obscureText` | Whether to hide input text as secure characters. <br> Default value is `true`. |
+| `shuffleNumericKey` | Whether to shuffle the position of the numeric keys. <br> Default value is `true`. |
 | `onKeyPressed` | Called when the key is pressed. |
 | `onCharCodesChanged` | Called when the character codes changed. |
 | `onDoneKeyPressed` | Called when the done key is pressed. |
