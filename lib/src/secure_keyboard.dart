@@ -190,7 +190,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     } else if (key.type == SecureKeyboardKeyType.Action) {
       switch (key.action) {
         // Backspace
-        case SecureKeyboardKeyAction.Backspace:
+        case SecureKeyboardKeyAction.BACKSPACE:
           if (_charCodes.isNotEmpty) {
             setState(() => _charCodes.removeLast());
             widget.onCharCodesChanged(_charCodes);
@@ -198,18 +198,18 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
           break;
           
         // Done
-        case SecureKeyboardKeyAction.Done:
+        case SecureKeyboardKeyAction.DONE:
           widget.onDoneKeyPressed(_charCodes);
           break;
           
         // Clear
-        case SecureKeyboardKeyAction.Clear:
+        case SecureKeyboardKeyAction.CLEAR:
           setState(() => _charCodes.clear());
           widget.onCharCodesChanged(_charCodes);
           break;
           
         // Shift
-        case SecureKeyboardKeyAction.Shift:
+        case SecureKeyboardKeyAction.SHIFT:
           if (!widget.alwaysCaps)
             setState(() {
               _isShiftEnabled = !_isShiftEnabled;
@@ -217,7 +217,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
           break;
           
         // SpecialChars
-        case SecureKeyboardKeyAction.SpecialChars:
+        case SecureKeyboardKeyAction.SPECIAL_CHARACTERS:
           setState(() {
             _isSpecialCharsEnabled = !_isSpecialCharsEnabled;
           });
@@ -418,7 +418,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     Widget actionKey;
 
     switch (key.action) {
-      case SecureKeyboardKeyAction.Backspace:
+      case SecureKeyboardKeyAction.BACKSPACE:
         actionKey = GestureDetector(
           onLongPress: () {
             final delay = Duration(milliseconds: backspaceEventDelay);
@@ -433,24 +433,24 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
           child: Icon(Icons.backspace, color: widget.keyTextStyle.color)
         );
         break;
-      case SecureKeyboardKeyAction.Shift:
+      case SecureKeyboardKeyAction.SHIFT:
         actionKey = Icon(Icons.arrow_upward, color: widget.keyTextStyle.color);
         break;
-      case SecureKeyboardKeyAction.Clear:
+      case SecureKeyboardKeyAction.CLEAR:
         keyText = widget.clearKeyText;
         if (keyText == null || keyText.isEmpty)
           keyText = (Platform.localeName == 'ko_KR') ? '초기화' : 'Clear';
 
         actionKey = Text(keyText, style: widget.keyTextStyle);
         break;
-      case SecureKeyboardKeyAction.Done:
+      case SecureKeyboardKeyAction.DONE:
         keyText = widget.doneKeyText;
         if (keyText == null || keyText.isEmpty)
           keyText = (Platform.localeName == 'ko_KR') ? '입력완료' : 'Done';
 
         actionKey = Text(keyText, style: widget.keyTextStyle);
         break;
-      case SecureKeyboardKeyAction.SpecialChars:
+      case SecureKeyboardKeyAction.SPECIAL_CHARACTERS:
         actionKey = Text(
           _isSpecialCharsEnabled
               ? (_isShiftEnabled ? 'ABC' : 'abc')
@@ -458,14 +458,14 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
           style: widget.keyTextStyle
         );
         break;
-      case SecureKeyboardKeyAction.Blank:
+      case SecureKeyboardKeyAction.BLANK:
         return Expanded(child: SizedBox());
     }
 
     Color keyColor;
-    if (key.action == SecureKeyboardKeyAction.Done)
+    if (key.action == SecureKeyboardKeyAction.DONE)
       keyColor = widget.doneKeyColor;
-    else if (key.action == SecureKeyboardKeyAction.Shift && _isShiftEnabled)
+    else if (key.action == SecureKeyboardKeyAction.SHIFT && _isShiftEnabled)
       keyColor = widget.activatedKeyColor ?? widget.doneKeyColor;
     else
       keyColor = widget.actionKeyColor;

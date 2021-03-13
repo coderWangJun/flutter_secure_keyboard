@@ -202,7 +202,7 @@ class SecureKeyboardKeyGenerator {
   SecureKeyboardKey _backspaceActionKey() {
     return SecureKeyboardKey(
       type: SecureKeyboardKeyType.Action,
-      action: SecureKeyboardKeyAction.Backspace
+      action: SecureKeyboardKeyAction.BACKSPACE
     );
   }
 
@@ -210,7 +210,7 @@ class SecureKeyboardKeyGenerator {
   SecureKeyboardKey _doneActionKey() {
     return SecureKeyboardKey(
       type: SecureKeyboardKeyType.Action,
-      action: SecureKeyboardKeyAction.Done
+      action: SecureKeyboardKeyAction.DONE
     );
   }
 
@@ -218,7 +218,7 @@ class SecureKeyboardKeyGenerator {
   SecureKeyboardKey _clearActionKey() {
     return SecureKeyboardKey(
       type: SecureKeyboardKeyType.Action,
-      action: SecureKeyboardKeyAction.Clear
+      action: SecureKeyboardKeyAction.CLEAR
     );
   }
 
@@ -226,7 +226,7 @@ class SecureKeyboardKeyGenerator {
   SecureKeyboardKey _shiftActionKey() {
     return SecureKeyboardKey(
       type: SecureKeyboardKeyType.Action,
-      action: SecureKeyboardKeyAction.Shift
+      action: SecureKeyboardKeyAction.SHIFT
     );
   }
 
@@ -234,7 +234,7 @@ class SecureKeyboardKeyGenerator {
   SecureKeyboardKey _blankActionKey() {
     return SecureKeyboardKey(
       type: SecureKeyboardKeyType.Action,
-      action: SecureKeyboardKeyAction.Blank
+      action: SecureKeyboardKeyAction.BLANK
     );
   }
 
@@ -242,7 +242,7 @@ class SecureKeyboardKeyGenerator {
   SecureKeyboardKey _specialCharsActionKey() {
     return SecureKeyboardKey(
       type: SecureKeyboardKeyType.Action,
-      action: SecureKeyboardKeyAction.SpecialChars
+      action: SecureKeyboardKeyAction.SPECIAL_CHARACTERS
     );
   }
 }
