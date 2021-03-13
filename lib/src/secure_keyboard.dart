@@ -18,7 +18,7 @@ const double keyboardDefaultHeight = 280.0;
 const double keyboardKeyDefaultRadius = 4.0;
 
 /// Keyboard key default spacing.
-const double keyboardKeyDefaultSpacing = 1.3;
+const double keyboardKeyDefaultSpacing = 1.4;
 
 /// Speed ​​of erasing input text when holding backspace.
 const int backspaceEventDelay = 100;
@@ -42,6 +42,14 @@ const TextStyle keyboardDefaultKeyTextStyle = TextStyle(
 /// Keyboard default input text style.
 const TextStyle keyboardDefaultInputTextStyle = TextStyle(
     color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold);
+
+/// Key input monitor default padding.
+const EdgeInsetsGeometry keyInputMonitorDefaultPadding =
+EdgeInsets.only(left: 10.0, right: 5.0);
+
+/// Keyboard default padding.
+const EdgeInsetsGeometry keyboardDefaultPadding =
+EdgeInsets.symmetric(horizontal: 5.0);
 
 /// Widget that implements a secure keyboard.
 class SecureKeyboard extends StatefulWidget {
@@ -103,8 +111,16 @@ class SecureKeyboard extends StatefulWidget {
   final double keyRadius;
 
   /// Set the spacing between keyboard keys.
-  /// Default value is `1.3`.
+  /// Default value is `1.4`.
   final double keySpacing;
+
+  /// Set the padding of the key input monitor.
+  /// Default value is `EdgeInsets.only(left: 10.0, right: 5.0)`.
+  final EdgeInsetsGeometry keyInputMonitorPadding;
+
+  /// Set the padding of the keyboard.
+  /// Default value is `EdgeInsets.symmetric(horizontal: 5.0)`.
+  final EdgeInsetsGeometry keyboardPadding;
 
   /// Parameter to set the keyboard background color.
   /// Default value is `Color(0xFF0A0A0A)`.
@@ -163,6 +179,8 @@ class SecureKeyboard extends StatefulWidget {
     this.height = keyboardDefaultHeight,
     this.keyRadius = keyboardKeyDefaultRadius,
     this.keySpacing = keyboardKeyDefaultSpacing,
+    this.keyInputMonitorPadding = keyInputMonitorDefaultPadding,
+    this.keyboardPadding = keyboardDefaultPadding,
     this.backgroundColor = keyboardDefaultBackgroundColor,
     this.stringKeyColor = keyboardDefaultStringKeyColor,
     this.actionKeyColor = keyboardDefaultActionKeyColor,
@@ -185,6 +203,8 @@ class SecureKeyboard extends StatefulWidget {
         assert(height != null),
         assert(keyRadius != null),
         assert(keySpacing != null),
+        assert(keyInputMonitorPadding != null),
+        assert(keyboardPadding != null),
         assert(backgroundColor != null),
         assert(stringKeyColor != null),
         assert(actionKeyColor != null),
@@ -316,8 +336,19 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     final keyRows = _isSpecialCharsEnabled
         ? _specialKeyRows
         : _definedKeyRows;
-    final children = _buildKeyboardKey(keyRows);
-    children.insert(0, _buildKeyInputMonitor());
+
+    final keyInputMonitor = Padding(
+      padding: widget.keyInputMonitorPadding,
+      child: _buildKeyInputMonitor()
+    );
+
+    final keyboard = Padding(
+      padding: widget.keyboardPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: _buildKeyboardKey(keyRows)
+      ),
+    );
 
     return WillPopScope(
       onWillPop: widget.onCloseKeyPressed,
@@ -326,9 +357,10 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
         height: widget.height + keyInputMonitorHeight,
         color: widget.backgroundColor,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: children
+          children: [
+            keyInputMonitor,
+            keyboard
+          ]
         ),
       ),
     );
@@ -383,14 +415,11 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
       child: Row(
         children: [
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(
-                secureText,
-                style: secureTextStyle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis
-              )
+            child: Text(
+              secureText,
+              style: secureTextStyle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis
             )
           ),
           Padding(

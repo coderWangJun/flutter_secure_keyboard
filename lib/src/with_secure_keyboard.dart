@@ -21,8 +21,16 @@ class WithSecureKeyboard extends StatefulWidget {
   final double keyRadius;
 
   /// Set the spacing between keyboard keys.
-  /// Default value is `1.3`.
+  /// Default value is `1.4`.
   final double keySpacing;
+
+  /// Set the padding of the key input monitor.
+  /// Default value is `EdgeInsets.only(left: 10.0, right: 5.0)`.
+  final EdgeInsetsGeometry keyInputMonitorPadding;
+
+  /// Set the padding of the keyboard.
+  /// Default value is `EdgeInsets.symmetric(horizontal: 5.0)`.
+  final EdgeInsetsGeometry keyboardPadding;
 
   /// Parameter to set the keyboard background color.
   /// Default value is `Color(0xFF0A0A0A)`.
@@ -68,6 +76,8 @@ class WithSecureKeyboard extends StatefulWidget {
     this.keyboardHeight = keyboardDefaultHeight,
     this.keyRadius = keyboardKeyDefaultRadius,
     this.keySpacing = keyboardKeyDefaultSpacing,
+    this.keyInputMonitorPadding = keyInputMonitorDefaultPadding,
+    this.keyboardPadding = keyboardDefaultPadding,
     this.backgroundColor = keyboardDefaultBackgroundColor,
     this.stringKeyColor = keyboardDefaultStringKeyColor,
     this.actionKeyColor = keyboardDefaultActionKeyColor,
@@ -83,6 +93,8 @@ class WithSecureKeyboard extends StatefulWidget {
         assert(keyboardHeight != null),
         assert(keyRadius != null),
         assert(keySpacing != null),
+        assert(keyInputMonitorPadding != null),
+        assert(keyboardPadding != null),
         assert(backgroundColor != null),
         assert(stringKeyColor != null),
         assert(actionKeyColor != null),
@@ -124,6 +136,8 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
           height: widget.keyboardHeight,
           keyRadius: widget.keyRadius,
           keySpacing: widget.keySpacing,
+          keyInputMonitorPadding: widget.keyInputMonitorPadding,
+          keyboardPadding: widget.keyboardPadding,
           backgroundColor: widget.backgroundColor,
           stringKeyColor: widget.stringKeyColor,
           actionKeyColor: widget.actionKeyColor,
