@@ -14,6 +14,12 @@ const double keyInputMonitorHeight = 50.0;
 /// Keyboard default height.
 const double keyboardDefaultHeight = 280.0;
 
+/// Keyboard key default radius.
+const double keyboardKeyDefaultRadius = 4.0;
+
+/// Keyboard key default spacing.
+const double keyboardKeyDefaultSpacing = 1.5;
+
 /// Speed ​​of erasing input text when holding backspace.
 const int backspaceEventDelay = 100;
 
@@ -298,8 +304,8 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     final keyRows = _isSpecialCharsEnabled
         ? _specialKeyRows
         : _definedKeyRows;
-    final keyboardKey = _buildKeyboardKey(keyRows);
-    keyboardKey.insert(0, _buildKeyInputMonitor());
+    final children = _buildKeyboardKey(keyRows);
+    children.insert(0, _buildKeyInputMonitor());
 
     return WillPopScope(
       onWillPop: widget.onCloseKeyPressed,
@@ -310,7 +316,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: keyboardKey
+          children: children
         ),
       ),
     );
@@ -459,12 +465,12 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     return Expanded(
       child: Container(
         height: widget.height / keyRowsLength,
-        padding: const EdgeInsets.all(1.5),
+        padding: const EdgeInsets.all(keyboardKeyDefaultSpacing),
         child: Material(
-          borderRadius: BorderRadius.circular(4.0),
+          borderRadius: BorderRadius.circular(keyboardKeyDefaultRadius),
           color: widget.stringKeyColor,
           child: InkWell(
-            borderRadius: BorderRadius.circular(4.0),
+            borderRadius: BorderRadius.circular(keyboardKeyDefaultRadius),
             onTap: () => _onKeyPressed(key),
             child: Center(child: Text(keyText, style: widget.keyTextStyle))
           ),
@@ -533,12 +539,12 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     return Expanded(
       child: Container(
         height: widget.height / keyRowsLength,
-        padding: const EdgeInsets.all(1.5),
+        padding: const EdgeInsets.all(keyboardKeyDefaultSpacing),
         child: Material(
-          borderRadius: BorderRadius.circular(4.0),
+          borderRadius: BorderRadius.circular(keyboardKeyDefaultRadius),
           color: keyColor,
           child: InkWell(
-            borderRadius: BorderRadius.circular(4.0),
+            borderRadius: BorderRadius.circular(keyboardKeyDefaultRadius),
             onTap: () => _onKeyPressed(key),
             child: Center(child: actionKey)
           ),
