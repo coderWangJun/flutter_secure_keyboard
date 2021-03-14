@@ -115,7 +115,7 @@ class SecureKeyboard extends StatefulWidget {
   /// Default value is `true`.
   final bool shuffleNumericKey;
 
-  /// Whether to show the key input monitor.
+  /// Whether to hide the key input monitor.
   /// Default value is `false`.
   final bool hideKeyInputMonitor;
 

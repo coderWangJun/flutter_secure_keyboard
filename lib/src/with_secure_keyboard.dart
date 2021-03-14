@@ -223,6 +223,8 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
           onCloseKeyPressed();
       },
       onStringKeyTouchStart: (keyText, position, constraints) async {
+        if (widget.controller._disableKeyBubble) return;
+
         keyBubbleText = keyText;
         keyBubbleWidth = constraints.maxWidth * 1.5;
         keyBubbleHeight = constraints.maxHeight * 1.5;
@@ -231,6 +233,8 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
         keyBubbleStateController.sink.add(true);
       },
       onStringKeyTouchEnd: () async {
+        if (widget.controller._disableKeyBubble) return;
+
         keyBubbleText = null;
         keyBubbleWidth = null;
         keyBubbleHeight = null;
@@ -312,6 +316,7 @@ class SecureKeyboardController extends ChangeNotifier {
   late bool _obscureText;
   late bool _shuffleNumericKey;
   late bool _hideKeyInputMonitor;
+  late bool _disableKeyBubble;
 
   ValueChanged<SecureKeyboardKey>? _onKeyPressed;
   ValueChanged<List<int>>? _onCharCodesChanged;
@@ -333,6 +338,7 @@ class SecureKeyboardController extends ChangeNotifier {
     bool obscureText = true,
     bool shuffleNumericKey = true,
     bool hideKeyInputMonitor = false,
+    bool disableKeyBubble = false,
     ValueChanged<SecureKeyboardKey>? onKeyPressed,
     ValueChanged<List<int>>? onCharCodesChanged,
     ValueChanged<List<int>>? onDoneKeyPressed,
@@ -353,6 +359,7 @@ class SecureKeyboardController extends ChangeNotifier {
     _obscureText = obscureText;
     _shuffleNumericKey = shuffleNumericKey;
     _hideKeyInputMonitor = hideKeyInputMonitor;
+    _disableKeyBubble = disableKeyBubble;
     _onKeyPressed = onKeyPressed;
     _onCharCodesChanged = onCharCodesChanged;
     _onDoneKeyPressed = onDoneKeyPressed;
@@ -376,6 +383,7 @@ class SecureKeyboardController extends ChangeNotifier {
     // _obscureText = null;
     // _shuffleNumericKey = null;
     // _hideKeyInputMonitor = null;
+    // _disableKeyBubble = null;
     _onKeyPressed = null;
     _onCharCodesChanged = null;
     _onDoneKeyPressed = null;
