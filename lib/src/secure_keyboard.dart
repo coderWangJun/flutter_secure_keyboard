@@ -9,46 +9,46 @@ import 'package:flutter_secure_keyboard/src/secure_keyboard_type.dart';
 import 'package:flutter_secure_keyboard/src/secure_keyboard_key.dart';
 
 /// Height of widget showing input text.
-const double keyInputMonitorHeight = 50.0;
+const double kKeyInputMonitorHeight = 50.0;
 
 /// Keyboard default height.
-const double keyboardDefaultHeight = 280.0;
+const double kKeyboardDefaultHeight = 280.0;
 
 /// Keyboard key default radius.
-const double keyboardKeyDefaultRadius = 4.0;
+const double kKeyboardKeyDefaultRadius = 4.0;
 
 /// Keyboard key default spacing.
-const double keyboardKeyDefaultSpacing = 1.4;
+const double kKeyboardKeyDefaultSpacing = 1.4;
 
 /// Speed ​​of erasing input text when holding backspace.
-const int backspaceEventDelay = 100;
+const int kBackspaceEventDelay = 100;
 
 /// Keyboard default background color.
-const Color keyboardDefaultBackgroundColor = Color(0xFF0A0A0A);
+const Color kKeyboardDefaultBackgroundColor = Color(0xFF0A0A0A);
 
 /// Keyboard default string key color.
-const Color keyboardDefaultStringKeyColor = Color(0xFF313131);
+const Color kKeyboardDefaultStringKeyColor = Color(0xFF313131);
 
 /// Keyboard default action key color.
-const Color keyboardDefaultActionKeyColor = Color(0xFF222222);
+const Color kKeyboardDefaultActionKeyColor = Color(0xFF222222);
 
 /// Keyboard default done key color.
-const Color keyboardDefaultDoneKeyColor = Color(0xFF1C7CDC);
+const Color kKeyboardDefaultDoneKeyColor = Color(0xFF1C7CDC);
 
 /// Keyboard default key text style.
-const TextStyle keyboardDefaultKeyTextStyle = TextStyle(
+const TextStyle kKeyboardDefaultKeyTextStyle = TextStyle(
     color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold);
 
 /// Keyboard default input text style.
-const TextStyle keyboardDefaultInputTextStyle = TextStyle(
+const TextStyle kKeyboardDefaultInputTextStyle = TextStyle(
     color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold);
 
 /// Key input monitor default padding.
-const EdgeInsetsGeometry keyInputMonitorDefaultPadding =
+const EdgeInsetsGeometry kKeyInputMonitorDefaultPadding =
 EdgeInsets.only(left: 10.0, right: 5.0);
 
 /// Keyboard default padding.
-const EdgeInsetsGeometry keyboardDefaultPadding =
+const EdgeInsetsGeometry kKeyboardDefaultPadding =
 EdgeInsets.symmetric(horizontal: 5.0);
 
 /// String key touch start callback function.
@@ -191,18 +191,18 @@ class SecureKeyboard extends StatefulWidget {
     this.alwaysCaps = false,
     this.obscureText = true,
     this.shuffleNumericKey = true,
-    this.height = keyboardDefaultHeight,
-    this.keyRadius = keyboardKeyDefaultRadius,
-    this.keySpacing = keyboardKeyDefaultSpacing,
-    this.keyInputMonitorPadding = keyInputMonitorDefaultPadding,
-    this.keyboardPadding = keyboardDefaultPadding,
-    this.backgroundColor = keyboardDefaultBackgroundColor,
-    this.stringKeyColor = keyboardDefaultStringKeyColor,
-    this.actionKeyColor = keyboardDefaultActionKeyColor,
-    this.doneKeyColor = keyboardDefaultDoneKeyColor,
+    this.height = kKeyboardDefaultHeight,
+    this.keyRadius = kKeyboardKeyDefaultRadius,
+    this.keySpacing = kKeyboardKeyDefaultSpacing,
+    this.keyInputMonitorPadding = kKeyInputMonitorDefaultPadding,
+    this.keyboardPadding = kKeyboardDefaultPadding,
+    this.backgroundColor = kKeyboardDefaultBackgroundColor,
+    this.stringKeyColor = kKeyboardDefaultStringKeyColor,
+    this.actionKeyColor = kKeyboardDefaultActionKeyColor,
+    this.doneKeyColor = kKeyboardDefaultDoneKeyColor,
     this.activatedKeyColor,
-    this.keyTextStyle = keyboardDefaultKeyTextStyle,
-    this.inputTextStyle = keyboardDefaultInputTextStyle,
+    this.keyTextStyle = kKeyboardDefaultKeyTextStyle,
+    this.inputTextStyle = kKeyboardDefaultInputTextStyle,
     this.screenCaptureDetectedAlertTitle,
     this.screenCaptureDetectedAlertMessage,
     this.screenCaptureDetectedAlertActionTitle
@@ -356,7 +356,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: widget.height + keyInputMonitorHeight,
+        height: widget.height + kKeyInputMonitorHeight,
         color: widget.backgroundColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -418,7 +418,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
     final lengthText = '${charCodes.length}$lengthSymbol';
 
     return SizedBox(
-      height: keyInputMonitorHeight,
+      height: kKeyInputMonitorHeight,
       child: Row(
         children: [
           Expanded(
@@ -444,8 +444,8 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
 
   Widget _buildViewButton() {
     return Container(
-      width: keyInputMonitorHeight / 1.4,
-      height: keyInputMonitorHeight / 1.4,
+      width: kKeyInputMonitorHeight / 1.4,
+      height: kKeyInputMonitorHeight / 1.4,
       margin: const EdgeInsets.only(left: 1.5),
       child: Material(
         color: Colors.transparent,
@@ -467,8 +467,8 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
 
   Widget _buildCloseButton() {
     return Container(
-      width: keyInputMonitorHeight / 1.4,
-      height: keyInputMonitorHeight / 1.4,
+      width: kKeyInputMonitorHeight / 1.4,
+      height: kKeyInputMonitorHeight / 1.4,
       margin: const EdgeInsets.only(right: 1.5),
       child: Material(
         color: Colors.transparent,
@@ -556,7 +556,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
       case SecureKeyboardKeyAction.BACKSPACE:
         actionKeyChild = GestureDetector(
           onLongPress: () {
-            final delay = Duration(milliseconds: backspaceEventDelay);
+            final delay = Duration(milliseconds: kBackspaceEventDelay);
             _backspaceEventGenerator = Timer.periodic(delay, (_) => _onKeyPressed(key));
           },
           onLongPressUp: () {
