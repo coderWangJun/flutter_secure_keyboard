@@ -1,3 +1,8 @@
+## 2.1.1
+
+* Add `hideKeyInputMonitor` option.
+* Add `disableKeyBubble` option.
+
 ## 2.1.0
 
 * Improve performance.
