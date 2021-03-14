@@ -3,7 +3,7 @@ Mobile secure keyboard to prevent KeyLogger attack and screen capture.
 ## Screenshots
 | Alphanumeric | Numeric |
 |---|---|
-| <img src="https://user-images.githubusercontent.com/47127353/111055323-22586780-84b8-11eb-9ad7-7a26dc643bd5.jpg" width="200"> | <img src="https://user-images.githubusercontent.com/47127353/111055333-343a0a80-84b8-11eb-8e16-c1f2d7f68ff2.jpg" width="200"> |
+| <img src="https://user-images.githubusercontent.com/47127353/111059243-52fbc980-84d7-11eb-9260-01b6b7b5909c.png" width="200"> | <img src="https://user-images.githubusercontent.com/47127353/111059256-7888d300-84d7-11eb-8797-89a69337d8ad.png" width="200"> |
 
 ## Getting started
 
@@ -170,6 +170,7 @@ class _WithSecureKeyboardExampleState extends State<WithSecureKeyboardExample> {
 | `alwaysCaps` | Whether to always display uppercase characters. <br> Default value is `false`. |
 | `obscureText` | Whether to hide input text as secure characters. <br> Default value is `true`. |
 | `shuffleNumericKey` | Whether to shuffle the position of the numeric keys. <br> Default value is `true`. |
+| `hideKeyInputMonitor` | Whether to show the key input monitor. <br> Default value is `false`. |
 | `onKeyPressed` | Called when the key is pressed. |
 | `onCharCodesChanged` | Called when the character codes changed. |
 | `onDoneKeyPressed` | Called when the done key is pressed. |

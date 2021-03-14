@@ -188,6 +188,7 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
       alwaysCaps: widget.controller._alwaysCaps,
       obscureText: widget.controller._obscureText,
       shuffleNumericKey: widget.controller._shuffleNumericKey,
+      hideKeyInputMonitor: widget.controller._hideKeyInputMonitor,
       height: widget.keyboardHeight,
       keyRadius: widget.keyRadius,
       keySpacing: widget.keySpacing,
@@ -310,6 +311,7 @@ class SecureKeyboardController extends ChangeNotifier {
   late bool _alwaysCaps;
   late bool _obscureText;
   late bool _shuffleNumericKey;
+  late bool _hideKeyInputMonitor;
 
   ValueChanged<SecureKeyboardKey>? _onKeyPressed;
   ValueChanged<List<int>>? _onCharCodesChanged;
@@ -330,6 +332,7 @@ class SecureKeyboardController extends ChangeNotifier {
     bool alwaysCaps = false,
     bool obscureText = true,
     bool shuffleNumericKey = true,
+    bool hideKeyInputMonitor = false,
     ValueChanged<SecureKeyboardKey>? onKeyPressed,
     ValueChanged<List<int>>? onCharCodesChanged,
     ValueChanged<List<int>>? onDoneKeyPressed,
@@ -349,6 +352,7 @@ class SecureKeyboardController extends ChangeNotifier {
     _alwaysCaps = alwaysCaps;
     _obscureText = obscureText;
     _shuffleNumericKey = shuffleNumericKey;
+    _hideKeyInputMonitor = hideKeyInputMonitor;
     _onKeyPressed = onKeyPressed;
     _onCharCodesChanged = onCharCodesChanged;
     _onDoneKeyPressed = onDoneKeyPressed;
@@ -371,6 +375,7 @@ class SecureKeyboardController extends ChangeNotifier {
     // _alwaysCaps = null;
     // _obscureText = null;
     // _shuffleNumericKey = null;
+    // _hideKeyInputMonitor = null;
     _onKeyPressed = null;
     _onCharCodesChanged = null;
     _onDoneKeyPressed = null;

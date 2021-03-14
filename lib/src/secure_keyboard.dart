@@ -115,6 +115,10 @@ class SecureKeyboard extends StatefulWidget {
   /// Default value is `true`.
   final bool shuffleNumericKey;
 
+  /// Whether to show the key input monitor.
+  /// Default value is `false`.
+  final bool hideKeyInputMonitor;
+
   /// Parameter to set the keyboard height.
   /// Default value is `280.0`.
   final double height;
@@ -191,6 +195,7 @@ class SecureKeyboard extends StatefulWidget {
     this.alwaysCaps = false,
     this.obscureText = true,
     this.shuffleNumericKey = true,
+    this.hideKeyInputMonitor = false,
     this.height = kKeyboardDefaultHeight,
     this.keyRadius = kKeyboardKeyDefaultRadius,
     this.keySpacing = kKeyboardKeyDefaultSpacing,
@@ -331,19 +336,26 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
 
   @override
   Widget build(BuildContext context) {
+    double height;
+    Widget keyInputMonitor;
+    if (widget.hideKeyInputMonitor) {
+      height = widget.height + 5.0;
+      keyInputMonitor = Container();
+    } else {
+      height = widget.height + kKeyInputMonitorHeight;
+      keyInputMonitor = Padding(
+        padding: widget.keyInputMonitorPadding,
+        child: _buildKeyInputMonitor()
+      );
+    }
+
     final keyRows = _isSpecialCharsEnabled
         ? _specialKeyRows
         : _definedKeyRows;
-
-    final keyInputMonitor = Padding(
-      padding: widget.keyInputMonitorPadding,
-      child: _buildKeyInputMonitor()
-    );
-
     final keyboard = Padding(
       padding: widget.keyboardPadding,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: _buildKeyboardKey(keyRows)
       ),
@@ -356,10 +368,10 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: widget.height + kKeyInputMonitorHeight,
+        height: height,
         color: widget.backgroundColor,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             keyInputMonitor,
