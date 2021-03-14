@@ -1,3 +1,8 @@
+## 2.1.0
+
+* Improve performance.
+* Add `Key Bubble` to check the string key pressed.
+
 ## 2.0.0
 
 * Migrate null safety.

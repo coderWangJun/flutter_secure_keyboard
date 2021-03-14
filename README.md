@@ -11,7 +11,7 @@ To use this plugin, add `flutter_secure_keyboard` as a [dependency in your pubsp
 
 ```yaml
 dependencies:
-  flutter_secure_keyboard: ^2.0.0
+  flutter_secure_keyboard: ^2.1.0
 ```
 
 ## Examples
