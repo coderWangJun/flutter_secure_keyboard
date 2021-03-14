@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_secure_keyboard/src/secure_keyboard.dart';
@@ -95,69 +96,23 @@ class WithSecureKeyboard extends StatefulWidget {
 }
 
 class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
-  Widget secureKeyboard = SizedBox();
+  final secureKeyboardStateController = StreamController<bool>.broadcast();
+  final keyBubbleStateController = StreamController<bool>.broadcast();
+
+  String? keyBubbleText;
+  double? keyBubbleWidth;
+  double? keyBubbleHeight;
+  double? keyBubbleDx;
+  double? keyBubbleDy;
 
   void onSecureKeyboardStateChanged() async {
-    setState(() {
-      if (widget.controller.isShowing) {
-        // Hide Software Keyboard
-        FocusScope.of(context).requestFocus(FocusNode());
+    // Hide software keyboard
+    FocusScope.of(context).requestFocus(FocusNode());
 
-        final onKeyPressed = widget.controller._onKeyPressed;
-        final onCharCodesChanged = widget.controller._onCharCodesChanged;
-        final onDoneKeyPressed = widget.controller._onDoneKeyPressed;
-        final onCloseKeyPressed = widget.controller._onCloseKeyPressed;
-
-        secureKeyboard = SecureKeyboard(
-          type: widget.controller._type,
-          initText: widget.controller._initText,
-          hintText: widget.controller._hintText,
-          inputTextLengthSymbol: widget.controller._inputTextLengthSymbol,
-          doneKeyText: widget.controller._doneKeyText,
-          clearKeyText: widget.controller._clearKeyText,
-          obscuringCharacter: widget.controller._obscuringCharacter,
-          maxLength: widget.controller._maxLength,
-          alwaysCaps: widget.controller._alwaysCaps,
-          obscureText: widget.controller._obscureText,
-          shuffleNumericKey: widget.controller._shuffleNumericKey,
-          height: widget.keyboardHeight,
-          keyRadius: widget.keyRadius,
-          keySpacing: widget.keySpacing,
-          keyInputMonitorPadding: widget.keyInputMonitorPadding,
-          keyboardPadding: widget.keyboardPadding,
-          backgroundColor: widget.backgroundColor,
-          stringKeyColor: widget.stringKeyColor,
-          actionKeyColor: widget.actionKeyColor,
-          doneKeyColor: widget.doneKeyColor,
-          activatedKeyColor: widget.activatedKeyColor,
-          keyTextStyle: widget.keyTextStyle,
-          inputTextStyle: widget.inputTextStyle,
-          screenCaptureDetectedAlertTitle: widget.screenCaptureDetectedAlertTitle,
-          screenCaptureDetectedAlertMessage: widget.screenCaptureDetectedAlertMessage,
-          screenCaptureDetectedAlertActionTitle: widget.screenCaptureDetectedAlertActionTitle,
-          onKeyPressed: (key) {
-            if (onKeyPressed != null)
-              onKeyPressed(key);
-          },
-          onCharCodesChanged: (charCodes) {
-            if (onCharCodesChanged != null)
-              onCharCodesChanged(charCodes);
-          },
-          onDoneKeyPressed: (charCodes) {
-            widget.controller.hide();
-            if (onDoneKeyPressed != null)
-              onDoneKeyPressed(charCodes);
-          },
-          onCloseKeyPressed: () {
-            widget.controller.hide();
-            if (onCloseKeyPressed != null)
-              onCloseKeyPressed();
-          }
-        );
-      } else {
-        secureKeyboard = SizedBox();
-      }
-    });
+    if (widget.controller.isShowing)
+      secureKeyboardStateController.sink.add(true);
+    else
+      secureKeyboardStateController.sink.add(false);
 
     final textFieldFocusNode = widget.controller._textFieldFocusNode;
     if (textFieldFocusNode == null) return;
@@ -184,13 +139,146 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      body: Stack(
+        fit: StackFit.expand,
         children: [
-          Expanded(child: widget.child),
-          secureKeyboard
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(child: widget.child),
+              secureKeyboardBuilder()
+            ],
+          ),
+          keyBubbleBuilder()
         ],
+      ),
+    );
+  }
+  
+  Widget secureKeyboardBuilder() {
+    return StreamBuilder<bool>(
+      stream: secureKeyboardStateController.stream.asBroadcastStream(
+        onCancel: (subscription) => subscription.cancel()
+      ),
+      initialData: false,
+      builder: (context, snapshot) {
+        return (snapshot.data == true)
+            ? buildSecureKeyboard()
+            : Container();
+      }
+    );
+  }
+  
+  Widget buildSecureKeyboard() {
+    final onKeyPressed = widget.controller._onKeyPressed;
+    final onCharCodesChanged = widget.controller._onCharCodesChanged;
+    final onDoneKeyPressed = widget.controller._onDoneKeyPressed;
+    final onCloseKeyPressed = widget.controller._onCloseKeyPressed;
+
+    return SecureKeyboard(
+      type: widget.controller._type,
+      initText: widget.controller._initText,
+      hintText: widget.controller._hintText,
+      inputTextLengthSymbol: widget.controller._inputTextLengthSymbol,
+      doneKeyText: widget.controller._doneKeyText,
+      clearKeyText: widget.controller._clearKeyText,
+      obscuringCharacter: widget.controller._obscuringCharacter,
+      maxLength: widget.controller._maxLength,
+      alwaysCaps: widget.controller._alwaysCaps,
+      obscureText: widget.controller._obscureText,
+      shuffleNumericKey: widget.controller._shuffleNumericKey,
+      height: widget.keyboardHeight,
+      keyRadius: widget.keyRadius,
+      keySpacing: widget.keySpacing,
+      keyInputMonitorPadding: widget.keyInputMonitorPadding,
+      keyboardPadding: widget.keyboardPadding,
+      backgroundColor: widget.backgroundColor,
+      stringKeyColor: widget.stringKeyColor,
+      actionKeyColor: widget.actionKeyColor,
+      doneKeyColor: widget.doneKeyColor,
+      activatedKeyColor: widget.activatedKeyColor,
+      keyTextStyle: widget.keyTextStyle,
+      inputTextStyle: widget.inputTextStyle,
+      screenCaptureDetectedAlertTitle: widget.screenCaptureDetectedAlertTitle,
+      screenCaptureDetectedAlertMessage: widget.screenCaptureDetectedAlertMessage,
+      screenCaptureDetectedAlertActionTitle: widget.screenCaptureDetectedAlertActionTitle,
+      onKeyPressed: (key) {
+        if (onKeyPressed != null)
+          onKeyPressed(key);
+      },
+      onCharCodesChanged: (charCodes) {
+        if (onCharCodesChanged != null)
+          onCharCodesChanged(charCodes);
+      },
+      onDoneKeyPressed: (charCodes) {
+        widget.controller.hide();
+        if (onDoneKeyPressed != null)
+          onDoneKeyPressed(charCodes);
+      },
+      onCloseKeyPressed: () {
+        widget.controller.hide();
+        if (onCloseKeyPressed != null)
+          onCloseKeyPressed();
+      },
+      onStringKeyTouchStart: (keyText, position, constraints) async {
+        keyBubbleText = keyText;
+        keyBubbleWidth = constraints.maxWidth * 1.5;
+        keyBubbleHeight = constraints.maxHeight * 1.5;
+        keyBubbleDx = position.dx - (keyBubbleWidth! / 6) + widget.keySpacing;
+        keyBubbleDy = position.dy - keyBubbleHeight! - widget.keySpacing;
+        keyBubbleStateController.sink.add(true);
+      },
+      onStringKeyTouchEnd: () async {
+        keyBubbleText = null;
+        keyBubbleWidth = null;
+        keyBubbleHeight = null;
+        keyBubbleDx = null;
+        keyBubbleDy = null;
+        keyBubbleStateController.sink.add(false);
+      },
+    );
+  }
+  
+  Widget keyBubbleBuilder() {
+    return StreamBuilder<bool>(
+      stream: keyBubbleStateController.stream.asBroadcastStream(
+        onCancel: (subscription) => subscription.cancel()
+      ),
+      initialData: false,
+      builder: (context, snapshot) {
+        Widget keyBubble;
+        if (snapshot.data == true) {
+          keyBubble = Positioned(
+            left: keyBubbleDx,
+            top: keyBubbleDy,
+            child: buildKeyBubble()
+          );
+        } else {
+          keyBubble = Container();
+        }
+
+        return keyBubble;
+      }
+    );
+  }
+  
+  Widget buildKeyBubble() {
+    final keyFontSize  = (widget.keyTextStyle.fontSize ?? 16.0) * 2;
+    final keyTextStyle = widget.keyTextStyle.copyWith(fontSize: keyFontSize);
+
+    return Material(
+      elevation: 10.0,
+      color: Colors.transparent,
+      child: Container(
+        width: keyBubbleWidth,
+        height: keyBubbleHeight,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: widget.actionKeyColor,
+          borderRadius: BorderRadius.circular(widget.keyRadius)
+        ),
+        child: Text(keyBubbleText ?? '', style: keyTextStyle)
       ),
     );
   }
@@ -198,6 +286,8 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
   @override
   void dispose() {
     widget.controller.removeListener(onSecureKeyboardStateChanged);
+    secureKeyboardStateController.close();
+    keyBubbleStateController.close();
     super.dispose();
   }
 }

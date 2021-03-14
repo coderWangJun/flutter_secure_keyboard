@@ -51,6 +51,13 @@ EdgeInsets.only(left: 10.0, right: 5.0);
 const EdgeInsetsGeometry keyboardDefaultPadding =
 EdgeInsets.symmetric(horizontal: 5.0);
 
+/// String key touch start callback function.
+typedef OnStringKeyTouchStart = void Function(
+    String keyText, Offset position, BoxConstraints constraints);
+
+/// String key touch end callback function.
+typedef OnStringKeyTouchEnd = void Function();
+
 /// Widget that implements a secure keyboard.
 class SecureKeyboard extends StatefulWidget {
   /// Specifies the secure keyboard type.
@@ -67,6 +74,12 @@ class SecureKeyboard extends StatefulWidget {
 
   /// Called when the close key is pressed.
   final VoidCallback onCloseKeyPressed;
+
+  /// Called when the string key touch start.
+  final OnStringKeyTouchStart onStringKeyTouchStart;
+
+  /// Called when the string key touch end.
+  final OnStringKeyTouchEnd onStringKeyTouchEnd;
 
   /// Set the initial value of the input text.
   final String? initText;
@@ -166,6 +179,8 @@ class SecureKeyboard extends StatefulWidget {
     required this.onCharCodesChanged,
     required this.onDoneKeyPressed,
     required this.onCloseKeyPressed,
+    required this.onStringKeyTouchStart,
+    required this.onStringKeyTouchEnd,
     this.initText,
     this.hintText,
     this.inputTextLengthSymbol,
@@ -440,9 +455,9 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
 
           },
           child: GestureDetector(
-            onTapDown: (_) => setState(() => _isViewEnabled = true),
-            onTapUp: (_) => setState(() => _isViewEnabled = false),
+            onPanDown: (_) => setState(() => _isViewEnabled = true),
             onPanEnd: (_) => setState(() => _isViewEnabled = false),
+            onPanCancel: () => setState(() => _isViewEnabled = false),
             child: Icon(Icons.remove_red_eye, color: widget.keyTextStyle.color)
           ),
         ),
@@ -492,32 +507,54 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
   
   Widget _buildStringKey(SecureKeyboardKey key, int keyRowsLength) {
     final keyText = (_isShiftEnabled || widget.alwaysCaps)
-        ? key.capsText
-        : key.text;
-    final stringKey = Text(keyText ?? '', style: widget.keyTextStyle);
+        ? key.capsText ?? ''
+        : key.text ?? '';
+    final stringKeyChild = Text(keyText, style: widget.keyTextStyle);
+    final globalKey = GlobalKey();
 
     return Expanded(
       child: Container(
+        key: globalKey,
         height: widget.height / keyRowsLength,
         padding: EdgeInsets.all(widget.keySpacing),
-        child: Material(
-          borderRadius: BorderRadius.circular(widget.keyRadius),
-          color: widget.stringKeyColor,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(widget.keyRadius),
-            onTap: () => _onKeyPressed(key),
-            child: Center(child: stringKey)
-          ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final stringKey = Material(
+              borderRadius: BorderRadius.circular(widget.keyRadius),
+              color: widget.stringKeyColor,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(widget.keyRadius),
+                onTap: () => _onKeyPressed(key),
+                child: Center(child: stringKeyChild)
+              ),
+            );
+
+            if (widget.type == SecureKeyboardType.ALPHA_NUMERIC)
+              return GestureDetector(
+                onPanDown: (_) {
+                  final renderObject = globalKey.currentContext?.findRenderObject();
+                  if ((renderObject != null) && (renderObject is RenderBox)) {
+                    final position = renderObject.localToGlobal(Offset.zero);
+                    widget.onStringKeyTouchStart(keyText, position, constraints);
+                  }
+                },
+                onPanEnd: (_) => widget.onStringKeyTouchEnd(),
+                onPanCancel: () => widget.onStringKeyTouchEnd(),
+                child: stringKey
+              );
+
+            return stringKey;
+          }
         ),
       ),
     );
   }
 
   Widget _buildActionKey(SecureKeyboardKey key, int keyRowsLength) {
-    Widget actionKey;
+    Widget actionKeyChild;
     switch (key.action ?? SecureKeyboardKeyAction.BLANK) {
       case SecureKeyboardKeyAction.BACKSPACE:
-        actionKey = GestureDetector(
+        actionKeyChild = GestureDetector(
           onLongPress: () {
             final delay = Duration(milliseconds: backspaceEventDelay);
             _backspaceEventGenerator = Timer.periodic(delay, (_) => _onKeyPressed(key));
@@ -530,24 +567,24 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
         );
         break;
       case SecureKeyboardKeyAction.SHIFT:
-        actionKey = Icon(Icons.arrow_upward, color: widget.keyTextStyle.color);
+        actionKeyChild = Icon(Icons.arrow_upward, color: widget.keyTextStyle.color);
         break;
       case SecureKeyboardKeyAction.CLEAR:
         String? keyText = widget.clearKeyText;
         if (keyText == null || keyText.isEmpty)
           keyText = (Platform.localeName == 'ko_KR') ? '초기화' : 'Clear';
 
-        actionKey = Text(keyText, style: widget.keyTextStyle);
+        actionKeyChild = Text(keyText, style: widget.keyTextStyle);
         break;
       case SecureKeyboardKeyAction.DONE:
         String? keyText = widget.doneKeyText;
         if (keyText == null || keyText.isEmpty)
           keyText = (Platform.localeName == 'ko_KR') ? '입력완료' : 'Done';
 
-        actionKey = Text(keyText, style: widget.keyTextStyle);
+        actionKeyChild = Text(keyText, style: widget.keyTextStyle);
         break;
       case SecureKeyboardKeyAction.SPECIAL_CHARACTERS:
-        actionKey = Text(
+        actionKeyChild = Text(
           _isSpecialCharsEnabled
               ? (_isShiftEnabled ? 'ABC' : 'abc')
               : '!@#',
@@ -576,7 +613,7 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
           child: InkWell(
             borderRadius: BorderRadius.circular(widget.keyRadius),
             onTap: () => _onKeyPressed(key),
-            child: Center(child: actionKey)
+            child: Center(child: actionKeyChild)
           ),
         ),
       ),

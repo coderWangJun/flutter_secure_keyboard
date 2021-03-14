@@ -3,7 +3,7 @@ Mobile secure keyboard to prevent KeyLogger attack and screen capture.
 ## Screenshots
 | Alphanumeric | Numeric |
 |---|---|
-| <img src="https://user-images.githubusercontent.com/47127353/103331966-8f5c8380-4aab-11eb-8098-f16c9417c2b7.png" width="200"> | <img src="https://user-images.githubusercontent.com/47127353/103331973-9a171880-4aab-11eb-8b34-fdf388d14044.png" width="200"> |
+| <img src="https://user-images.githubusercontent.com/47127353/111055323-22586780-84b8-11eb-9ad7-7a26dc643bd5.jpg" width="200"> | <img src="https://user-images.githubusercontent.com/47127353/111055333-343a0a80-84b8-11eb-8e16-c1f2d7f68ff2.jpg" width="200"> |
 
 ## Getting started
 
