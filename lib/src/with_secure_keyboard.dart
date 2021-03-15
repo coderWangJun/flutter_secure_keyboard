@@ -106,21 +106,25 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
   double? keyBubbleDy;
 
   void onSecureKeyboardStateChanged() async {
-    // Hide software keyboard
-    FocusScope.of(context).requestFocus(FocusNode());
+    if (widget.controller.isShowing) {
+      // Hide software keyboard
+      FocusScope.of(context).requestFocus(FocusNode());
 
-    if (widget.controller.isShowing)
+      // Show secure keyboard
       secureKeyboardStateController.sink.add(true);
-    else
+
+      // Scroll to text field position after duration.
+      final textFieldFocusNode = widget.controller._textFieldFocusNode;
+      if (textFieldFocusNode == null) return;
+      if (textFieldFocusNode.context == null) return;
+
+      final duration = const Duration(milliseconds: 300);
+      await Future.delayed(duration);
+      Scrollable.ensureVisible(textFieldFocusNode.context!, duration: duration);
+    } else {
+      // Hide secure keyboard
       secureKeyboardStateController.sink.add(false);
-
-    final textFieldFocusNode = widget.controller._textFieldFocusNode;
-    if (textFieldFocusNode == null) return;
-    if (textFieldFocusNode.context == null) return;
-
-    final duration = const Duration(milliseconds: 300);
-    await Future.delayed(duration);
-    Scrollable.ensureVisible(textFieldFocusNode.context!, duration: duration);
+    }
   }
 
   @override
