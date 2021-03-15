@@ -1,3 +1,7 @@
+## 2.1.2
+
+* Fixed an issue that lost focus when switching soft keyboard.
+
 ## 2.1.1
 
 * Add `hideKeyInputMonitor` option.

@@ -1,6 +1,6 @@
 name: flutter_secure_keyboard
 description: Mobile secure keyboard to prevent KeyLogger attack and screen capture.
-version: 2.1.1
+version: 2.1.2
 author: WOO JIN HWANG <hwj930513@naver.com>
 homepage: https://github.com/Dev-hwang/flutter_secure_keyboard
 
