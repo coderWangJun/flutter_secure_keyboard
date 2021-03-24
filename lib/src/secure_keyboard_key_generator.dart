@@ -19,7 +19,7 @@ class SecureKeyboardKeyGenerator {
 
   /// Maximum length of a row of alphanumeric key.
   /// If not enough, fill in the blank action key.
-  final int _alphanumericKeyRowMaxLength = 11;
+  final int _alphanumericKeyRowMaxLength = 10;
   final List<List<String>> _alphanumericKeyRows = [
     const ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
     const ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
@@ -29,7 +29,7 @@ class SecureKeyboardKeyGenerator {
 
   /// Maximum length of a row of special characters key.
   /// If not enough, fill in the blank action key.
-  final int _specialCharsKeyRowMaxLength = 11;
+  final int _specialCharsKeyRowMaxLength = 10;
   final List<List<String>> _specialCharsKeyRows = [
     const ['!', '@', '#', '\$', '%', '^', '&', '*', '(', ')'],
     const ['-', '=', '+', '{', '}', '[', ']', '\\', ':', ';'],
