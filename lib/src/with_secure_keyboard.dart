@@ -51,7 +51,7 @@ class WithSecureKeyboard extends StatefulWidget {
 
   /// Set the color to display when activated with the shift action key.
   /// If the value is null, `doneKeyColor` is used.
-  final Color? activatedKeyColor;
+  final Color activatedKeyColor;
 
   /// Parameter to set keyboard key text style.
   /// Default value is `TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold)`.
@@ -62,18 +62,18 @@ class WithSecureKeyboard extends StatefulWidget {
   final TextStyle inputTextStyle;
 
   /// Security Alert title, only works on ios.
-  final String? screenCaptureDetectedAlertTitle;
+  final String screenCaptureDetectedAlertTitle;
 
   /// Security Alert message, only works on ios.
-  final String? screenCaptureDetectedAlertMessage;
+  final String screenCaptureDetectedAlertMessage;
 
   /// Security Alert actionTitle, only works on ios.
-  final String? screenCaptureDetectedAlertActionTitle;
+  final String screenCaptureDetectedAlertActionTitle;
 
   WithSecureKeyboard({
-    Key? key,
-    required this.controller,
-    required this.child,
+    Key key,
+    this.controller,
+    this.child,
     this.keyboardHeight = kKeyboardDefaultHeight,
     this.keyRadius = kKeyboardKeyDefaultRadius,
     this.keySpacing = kKeyboardKeyDefaultSpacing,
@@ -99,11 +99,11 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
   final secureKeyboardStateController = StreamController<bool>.broadcast();
   final keyBubbleStateController = StreamController<bool>.broadcast();
 
-  String? keyBubbleText;
-  double? keyBubbleWidth;
-  double? keyBubbleHeight;
-  double? keyBubbleDx;
-  double? keyBubbleDy;
+  String keyBubbleText;
+  double keyBubbleWidth;
+  double keyBubbleHeight;
+  double keyBubbleDx;
+  double keyBubbleDy;
 
   void onSecureKeyboardStateChanged() async {
     if (widget.controller.isShowing) {
@@ -120,7 +120,7 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
 
       final duration = const Duration(milliseconds: 300);
       await Future.delayed(duration);
-      Scrollable.ensureVisible(textFieldFocusNode.context!, duration: duration);
+      Scrollable.ensureVisible(textFieldFocusNode.context, duration: duration);
     } else {
       // Hide secure keyboard
       secureKeyboardStateController.sink.add(false);
@@ -133,7 +133,7 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
     widget.controller.addListener(onSecureKeyboardStateChanged);
 
     // Code to prevent opening simultaneously with soft keyboard.
-    KeyboardVisibilityController().onChange.listen((visible) {
+    KeyboardVisibility.onChange.listen((visible) {
       if (widget.controller.isShowing && visible)
         widget.controller.hide();
     });
@@ -167,8 +167,8 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
       ),
       initialData: false,
       builder: (context, snapshot) {
-        return (snapshot.data == true)
-            ? buildSecureKeyboard()
+        return (snapshot.data == true) ?
+             buildSecureKeyboard()
             : Container();
       }
     );
@@ -188,7 +188,7 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
       doneKeyText: widget.controller._doneKeyText,
       clearKeyText: widget.controller._clearKeyText,
       obscuringCharacter: widget.controller._obscuringCharacter,
-      maxLength: widget.controller._maxLength,
+      // maxLength: widget.controller._maxLength,
       alwaysCaps: widget.controller._alwaysCaps,
       obscureText: widget.controller._obscureText,
       shuffleNumericKey: widget.controller._shuffleNumericKey,
@@ -232,8 +232,8 @@ class _WithSecureKeyboardState extends State<WithSecureKeyboard> {
         keyBubbleText = keyText;
         keyBubbleWidth = constraints.maxWidth * 1.5;
         keyBubbleHeight = constraints.maxHeight * 1.5;
-        keyBubbleDx = position.dx - (keyBubbleWidth! / 6) + widget.keySpacing;
-        keyBubbleDy = position.dy - keyBubbleHeight! - widget.keySpacing;
+        keyBubbleDx = position.dx - (keyBubbleWidth / 6) + widget.keySpacing;
+        keyBubbleDy = position.dy - keyBubbleHeight - widget.keySpacing;
         keyBubbleStateController.sink.add(true);
       },
       onStringKeyTouchEnd: () async {
@@ -307,46 +307,46 @@ class SecureKeyboardController extends ChangeNotifier {
   /// Whether the secure keyboard is open.
   bool get isShowing => _isShowing;
 
-  late SecureKeyboardType _type;
-  FocusNode? _textFieldFocusNode;
-  String? _initText;
-  String? _hintText;
-  String? _inputTextLengthSymbol;
-  String? _doneKeyText;
-  String? _clearKeyText;
-  late String _obscuringCharacter;
-  int? _maxLength;
-  late bool _alwaysCaps;
-  late bool _obscureText;
-  late bool _shuffleNumericKey;
-  late bool _hideKeyInputMonitor;
-  late bool _disableKeyBubble;
+  SecureKeyboardType _type;
+  FocusNode _textFieldFocusNode;
+  String _initText;
+  String _hintText;
+  String _inputTextLengthSymbol;
+  String _doneKeyText;
+  String _clearKeyText;
+  String _obscuringCharacter;
+  int maxLength;
+  bool _alwaysCaps;
+  bool _obscureText;
+  bool _shuffleNumericKey;
+  bool _hideKeyInputMonitor;
+  bool _disableKeyBubble;
 
-  ValueChanged<SecureKeyboardKey>? _onKeyPressed;
-  ValueChanged<List<int>>? _onCharCodesChanged;
-  ValueChanged<List<int>>? _onDoneKeyPressed;
-  VoidCallback? _onCloseKeyPressed;
+  ValueChanged<SecureKeyboardKey> _onKeyPressed;
+  ValueChanged<List<int>> _onCharCodesChanged;
+  ValueChanged<List<int>> _onDoneKeyPressed;
+  VoidCallback _onCloseKeyPressed;
 
   /// Show a secure keyboard.
   void show({
-    required SecureKeyboardType type,
-    FocusNode? textFieldFocusNode,
-    String? initText,
-    String? hintText,
-    String? inputTextLengthSymbol,
-    String? doneKeyText,
-    String? clearKeyText,
+    SecureKeyboardType type,
+    FocusNode textFieldFocusNode,
+    String initText,
+    String hintText,
+    String inputTextLengthSymbol,
+    String doneKeyText,
+    String clearKeyText,
     String obscuringCharacter = '•',
-    int? maxLength,
+    int maxLength,
     bool alwaysCaps = false,
     bool obscureText = true,
     bool shuffleNumericKey = true,
     bool hideKeyInputMonitor = false,
     bool disableKeyBubble = false,
-    ValueChanged<SecureKeyboardKey>? onKeyPressed,
-    ValueChanged<List<int>>? onCharCodesChanged,
-    ValueChanged<List<int>>? onDoneKeyPressed,
-    VoidCallback? onCloseKeyPressed
+    ValueChanged<SecureKeyboardKey> onKeyPressed,
+    ValueChanged<List<int>> onCharCodesChanged,
+    ValueChanged<List<int>> onDoneKeyPressed,
+    VoidCallback onCloseKeyPressed
   }) {
     assert(obscuringCharacter.isNotEmpty);
 
@@ -358,7 +358,7 @@ class SecureKeyboardController extends ChangeNotifier {
     _doneKeyText = doneKeyText;
     _clearKeyText = clearKeyText;
     _obscuringCharacter = obscuringCharacter;
-    _maxLength = maxLength;
+    // _maxLength = maxLength;
     _alwaysCaps = alwaysCaps;
     _obscureText = obscureText;
     _shuffleNumericKey = shuffleNumericKey;
@@ -382,7 +382,7 @@ class SecureKeyboardController extends ChangeNotifier {
     _doneKeyText = null;
     _clearKeyText = null;
     // _obscuringCharacter = null;
-    _maxLength = null;
+    // _maxLength = null;
     // _alwaysCaps = null;
     // _obscureText = null;
     // _shuffleNumericKey = null;
