@@ -503,9 +503,9 @@ class _SecureKeyboardState extends State<SecureKeyboard> {
           children: List.generate(keyRows[rowNum].length, (int keyNum) {
             final key = keyRows[rowNum][keyNum];
 
-            if (key.text == null) {
-              return Container();
-            }
+            // if (key.text == null) {
+            //   return Container();
+            // }
             
             switch (key.type) {
               case SecureKeyboardKeyType.STRING:
