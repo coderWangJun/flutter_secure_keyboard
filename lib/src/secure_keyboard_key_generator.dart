@@ -12,29 +12,29 @@ class SecureKeyboardKeyGenerator {
   /// If not enough, fill in the blank action key.
   final int _numericKeyRowMaxLength = 4;
   final List<List<String>> _numericKeyRows = [
-    const ['1', '2', '3'],
-    const ['4', '5', '6'],
-    const ['7', '8', '9', '0'],
+    const ['1', '2', '3', '4'],
+    const ['5', '6', '7', '8'],
+    const ['9', '0'],
   ];
 
   /// Maximum length of a row of alphanumeric key.
   /// If not enough, fill in the blank action key.
-  final int _alphanumericKeyRowMaxLength = 10;
+  final int _alphanumericKeyRowMaxLength = 9;
   final List<List<String>> _alphanumericKeyRows = [
     const ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
     const ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-    const ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-    const ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
+    const ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z'],
+    const ['x', 'c', 'v', 'b', 'n', 'm'],
   ];
 
   /// Maximum length of a row of special characters key.
   /// If not enough, fill in the blank action key.
-  final int _specialCharsKeyRowMaxLength = 10;
+  final int _specialCharsKeyRowMaxLength = 9;
   final List<List<String>> _specialCharsKeyRows = [
     const ['!', '@', '#', '\$', '%', '^', '&', '*', '(', ')'],
     const ['-', '=', '+', '{', '}', '[', ']', '\\', ':', ';'],
-    const ['\"', '\'', '<', '>', ',', '.', '/', '?', '|'],
-    const ['~', '`', '_', '\₩', '#', '@', '!'],
+    const ['\"', '\'', '<', '>', ',', '.', '/', '?', '|', '~'],
+    const ['`', '_', '\₩', '#', '@', '!'],
   ];
 
   /// Returns a list of numeric key rows.
@@ -59,9 +59,10 @@ class SecureKeyboardKeyGenerator {
           break;
         default:
           rowKeys = _getStringKeyRow(_numericKeyRows, rowNum);
-          emptyLength = _numericKeyRowMaxLength - _numericKeyRows[rowNum].length;
+          emptyLength =
+              _numericKeyRowMaxLength - _numericKeyRows[rowNum].length;
 
-          for (var i=0; i<emptyLength; i++) {
+          for (var i = 0; i < emptyLength; i++) {
             randomIndex = random.nextInt(_numericKeyRowMaxLength);
 
             if (randomIndex == _numericKeyRowMaxLength - 1)
@@ -70,8 +71,7 @@ class SecureKeyboardKeyGenerator {
               rowKeys.insert(randomIndex, _blankActionKey());
           }
 
-          if (shuffle)
-            rowKeys.shuffle();
+          if (shuffle) rowKeys.shuffle();
       }
 
       return rowKeys;
@@ -113,9 +113,10 @@ class SecureKeyboardKeyGenerator {
           break;
         default:
           rowKeys = _getStringKeyRow(_alphanumericKeyRows, rowNum);
-          emptyLength = _alphanumericKeyRowMaxLength - _alphanumericKeyRows[rowNum].length;
+          emptyLength = _alphanumericKeyRowMaxLength -
+              _alphanumericKeyRows[rowNum].length;
 
-          for (var i=0; i<emptyLength; i++) {
+          for (var i = 0; i < emptyLength; i++) {
             randomIndex = random.nextInt(_alphanumericKeyRowMaxLength);
 
             if (randomIndex == _alphanumericKeyRowMaxLength - 1)
@@ -124,8 +125,7 @@ class SecureKeyboardKeyGenerator {
               rowKeys.insert(randomIndex, _blankActionKey());
           }
 
-          if (rowNum == 0 && shuffle)
-            rowKeys.shuffle();
+          if (rowNum == 0 && shuffle) rowKeys.shuffle();
       }
 
       return rowKeys;
@@ -167,9 +167,10 @@ class SecureKeyboardKeyGenerator {
           break;
         default:
           rowKeys = _getStringKeyRow(_specialCharsKeyRows, rowNum);
-          emptyLength = _specialCharsKeyRowMaxLength - _specialCharsKeyRows[rowNum].length;
+          emptyLength = _specialCharsKeyRowMaxLength -
+              _specialCharsKeyRows[rowNum].length;
 
-          for (var i=0; i<emptyLength; i++) {
+          for (var i = 0; i < emptyLength; i++) {
             randomIndex = random.nextInt(_specialCharsKeyRowMaxLength);
 
             if (randomIndex == _specialCharsKeyRowMaxLength - 1)
@@ -184,63 +185,56 @@ class SecureKeyboardKeyGenerator {
   }
 
   /// Returns the string type key row.
-  List<SecureKeyboardKey> _getStringKeyRow(List<List<String>> keyRows, int rowNum) {
+  List<SecureKeyboardKey> _getStringKeyRow(
+      List<List<String>> keyRows, int rowNum) {
     return List.generate(keyRows[rowNum].length, (int keyNum) {
       String key = keyRows[rowNum][keyNum];
-
       return SecureKeyboardKey(
-        text: key,
-        capsText: key.toUpperCase(),
-        type: SecureKeyboardKeyType.STRING
-      );
+          text: key,
+          capsText: key.toUpperCase(),
+          type: SecureKeyboardKeyType.STRING);
     });
   }
 
   /// Returns the backspace action key.
   SecureKeyboardKey _backspaceActionKey() {
     return SecureKeyboardKey(
-      type: SecureKeyboardKeyType.ACTION,
-      action: SecureKeyboardKeyAction.BACKSPACE
-    );
+        type: SecureKeyboardKeyType.ACTION,
+        action: SecureKeyboardKeyAction.BACKSPACE);
   }
 
   /// Returns the done action key.
   SecureKeyboardKey _doneActionKey() {
     return SecureKeyboardKey(
-      type: SecureKeyboardKeyType.ACTION,
-      action: SecureKeyboardKeyAction.DONE
-    );
+        type: SecureKeyboardKeyType.ACTION,
+        action: SecureKeyboardKeyAction.DONE);
   }
 
   /// Returns the clear action key.
   SecureKeyboardKey _clearActionKey() {
     return SecureKeyboardKey(
-      type: SecureKeyboardKeyType.ACTION,
-      action: SecureKeyboardKeyAction.CLEAR
-    );
+        type: SecureKeyboardKeyType.ACTION,
+        action: SecureKeyboardKeyAction.CLEAR);
   }
 
   /// Returns the shift action key.
   SecureKeyboardKey _shiftActionKey() {
     return SecureKeyboardKey(
-      type: SecureKeyboardKeyType.ACTION,
-      action: SecureKeyboardKeyAction.SHIFT
-    );
+        type: SecureKeyboardKeyType.ACTION,
+        action: SecureKeyboardKeyAction.SHIFT);
   }
 
   /// Returns the blank action key.
   SecureKeyboardKey _blankActionKey() {
     return SecureKeyboardKey(
-      type: SecureKeyboardKeyType.ACTION,
-      action: SecureKeyboardKeyAction.BLANK
-    );
+        type: SecureKeyboardKeyType.ACTION,
+        action: SecureKeyboardKeyAction.BLANK);
   }
 
   /// Returns the specialChars action key.
   SecureKeyboardKey _specialCharsActionKey() {
     return SecureKeyboardKey(
-      type: SecureKeyboardKeyType.ACTION,
-      action: SecureKeyboardKeyAction.SPECIAL_CHARACTERS
-    );
+        type: SecureKeyboardKeyType.ACTION,
+        action: SecureKeyboardKeyAction.SPECIAL_CHARACTERS);
   }
 }
