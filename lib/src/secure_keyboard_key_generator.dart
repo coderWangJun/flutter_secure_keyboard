@@ -15,7 +15,6 @@ class SecureKeyboardKeyGenerator {
     const ['1', '2', '3'],
     const ['4', '5', '6'],
     const ['7', '8', '9', '0'],
-    const []
   ];
 
   /// Maximum length of a row of alphanumeric key.
@@ -26,7 +25,6 @@ class SecureKeyboardKeyGenerator {
     const ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
     const ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
     const ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
-    const []
   ];
 
   /// Maximum length of a row of special characters key.
@@ -37,7 +35,6 @@ class SecureKeyboardKeyGenerator {
     const ['-', '=', '+', '{', '}', '[', ']', '\\', ':', ';'],
     const ['\"', '\'', '<', '>', ',', '.', '/', '?', '|'],
     const ['~', '`', '_', '\₩', '#', '@', '!'],
-    const []
   ];
 
   /// Returns a list of numeric key rows.
